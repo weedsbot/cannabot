@@ -1,0 +1,20 @@
+Usuarios (Alta/Baja/Modificación)
+	Socio (Mongo)
+	Admins (Mongo)
+	Invitados (Sólo caso uso)
+
+Cepas (Alta/Baja/Modificación)
+	Seed desde json (Creado por API)
+
+Stock
+	Aumentar/Disminuir cantidad Cepa
+
+
+	
+Hierbas favoritas / usuario
+	(Alta/Baja)
+
+Pedidos (A la cola)
+
+Chat
+

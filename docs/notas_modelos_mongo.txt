@@ -1,0 +1,19 @@
+Hierbas
+	name
+	race
+	flavors[Strings]
+	effects_negative[Strings]
+	effects_positive[Strings]
+	effects_medical[Strings]
+	description
+	stock
+
+Usuarios
+	username
+	rol [Admin/Socio]
+	facebookId
+	arrayHierbas[{hierba1}{hierba2}{hierba3}{hierbaN}]
+
+
+
+
