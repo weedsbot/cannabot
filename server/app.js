@@ -80,6 +80,12 @@ app.use('/', index);
 
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
+
+const strainRoutes = require('./routes/strains');
+app.use('/strains', strainRoutes);
+
+const userRoutes = require('./routes/user');
+app.use('/user', userRoutes);
       
 
 module.exports = app;
