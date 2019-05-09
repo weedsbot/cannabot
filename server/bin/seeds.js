@@ -2,13 +2,18 @@
 
 // To execute this seed, run from the root of the project
 // $ node bin/seeds.js
+// require('dotenv').config({path:__dirname+'./../.env'})
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const mongoose = require("mongoose");
 const request = require("request-promise");
 const Strain = require("../models/Strain");
-
+let mongodb = process.env.MONGO
+console.log(__dirname)
+console.log(mongodb)
 mongoose
-  .connect("mongodb://localhost/cannabot", { useNewUrlParser: true })
+  .connect(mongodb, { useNewUrlParser: true })
   .then(x => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
@@ -21,15 +26,14 @@ mongoose
 let strainsToDB = [];
 
 Strain.deleteMany().then(() => {
-  request(`http://strainapi.evanbusse.com/KgfEK0M/strains/search/all`).then(
+  request(`http://strainapi.evanbusse.com/${process.env.API_KEY}/strains/search/all`).then(
     allStrains => {
       strains = JSON.parse(allStrains);
       let allStrainsKeys = Object.keys(strains);
-      // allStrainsKeys = allStrainsKeys.slice(0, 100);
 
       allStrainsKeys.forEach(strainKey => {
         request(
-          `http://strainapi.evanbusse.com/KgfEK0M/strains/data/desc/${
+          `http://strainapi.evanbusse.com/${process.env.API_KEY}/strains/data/desc/${
             strains[strainKey].id
           }`
         ).then(description => {
@@ -55,15 +59,3 @@ Strain.deleteMany().then(() => {
     }
   );
 });
-
-// .then(strainsCreated => {
-//   console.log(`${strainsToDB.length} strains created`);
-// })
-// .then(() => {
-//   // Close properly the connection to Mongoose
-//   mongoose.disconnect();
-// })
-// .catch(err => {
-//   mongoose.disconnect();
-//   throw err;
-// });
