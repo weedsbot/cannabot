@@ -6,7 +6,7 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   password: {type: String, required: true},
   strains: [{ type: Schema.Types.ObjectId, ref: "Strain" }],
-  rol: {enum : ['admin','partner']}
+  rol: {enum : ['admin','partner','groupAdmin']}
 });
 
 const User = mongoose.model("User", userSchema);

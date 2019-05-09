@@ -30,3 +30,4 @@ server/npm-debug.log
 
 # Environment Variables should NEVER be published
 server/.env
+.idea
