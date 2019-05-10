@@ -18,14 +18,16 @@ class Login extends Component {
 
     this.service.login(username, password)
       .then(response => {
-
+        this.props.getUser(response);
         this.setState({
           username: response.username,
           password: response.password,
+          redirectToHome :true,
           error: false
         });
 
-        this.props.getUser(response)
+
+        this.props.history.push('/')
       })
       .catch(error => {
         this.setState({
@@ -41,7 +43,10 @@ class Login extends Component {
 
 
   render() {
-
+    const redirectToHome = this.state.redirectToHome;
+    if (redirectToHome === true) {
+      return <Redirect to="/" />
+    }
     return (<div>
       <h3>Please, login to our site</h3>
 

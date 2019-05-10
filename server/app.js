@@ -99,10 +99,10 @@ const index = require('./routes/index');
 app.use('/api', index);
 
 const strainRoutes = require('./routes/strains');
-app.use('/strains', strainRoutes);
+app.use('/api/strains', strainRoutes);
 
 const userRoutes = require('./routes/user');
-app.use('/user', userRoutes);
+app.use('/api/user', userRoutes);
 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);

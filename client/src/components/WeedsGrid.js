@@ -1,19 +1,50 @@
 import React, { Component } from 'react';
-import AuthService from '../services/AuthService';
+import Strains from '../services/Strains';
+import StrainLittle from './StrainLittle';
+
 import { Redirect, Link, BrowserRouter } from 'react-router-dom';
 
 class WeedsGrid extends Component {
     constructor(props) {
         super(props);
-        this.state = {username: props.username, campus: props.campus, course: props.course, image: ''};
-        this.service = new AuthService();
+        this.strainservice = new Strains();
+        this.state = {
+            strains: []
+            };
+
+        this.getStrains()
     }
 
+    getStrains(){
+        return this.strainservice.allStrains().then(payload=>{
+           this.setState({
+               ...this.state,
+               strains: payload
+           })
+       })
+    }
+
+
     render() {
+        console.log(this.state.strains)
         return(
-            <div>
-                <h2>Weeds Catalog</h2>
-            </div>
+        <div>
+            <h2>Weeds Catalog</h2>
+
+            <section>
+                <p>{this.state.strains.length}</p>
+            </section>
+            {
+                this.state.strains.map((strain, idx) => {
+                    return (
+                      <div key={strain._id}>
+                          <StrainLittle {...strain}/>
+                      </div>
+                    )
+                })
+            }
+
+        </div>
         )
     }
 

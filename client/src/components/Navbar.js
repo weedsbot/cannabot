@@ -6,7 +6,6 @@ import AuthService from "../services/AuthService";
 class Navbar extends React.Component {
     constructor(props) {
         super(props)
-
         this.service = new AuthService();
     }
 

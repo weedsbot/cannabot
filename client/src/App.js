@@ -4,10 +4,10 @@ import './App.css';
 import AuthService from './services/AuthService';
 import Signup from './components/Signup';
 import Login from './components/Login';
-import Logout from './components/Logout';
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import WeedsGrid from './components/WeedsGrid';
+import StrainDetails from './components/StrainDetails';
 
 import { Switch, Route, Redirect, BrowserRouter} from 'react-router-dom';
 
@@ -67,11 +67,11 @@ class App extends React.Component {
         <div className="App">
           <Navbar loggedInUser={this.state.loggedInUser} logoutHandler={()=>this.logoutHandler()}></Navbar>
           <Switch>
-            <Route exact path='/profile' render={() => <Profile getUser={this.getUser} />} />
+            <Route exact path='/profile' render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>} />
             <Route exact path='/signup' render={() => <Signup getUser={this.getUser} />} />
             <Route exact path='/login' render={() => <Login getUser={this.getUser} />} />
-            <Route exact path='/logout' render={() => <Logout getUser={this.getUser} />} />
-            <Route exact path='/' render={() => <WeedsGrid getUser={this.getUser} />} />
+            <Route exact path='/straindetail/:idStrain' render={(props) => <StrainDetails {...props} getUser={this.getUser} />} />
+            <Route exact path='/' render={() => <WeedsGrid loggedInUser={this.state.loggedInUser} />} />
           </Switch>
         </div>
       </BrowserRouter>

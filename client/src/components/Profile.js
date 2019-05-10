@@ -5,14 +5,20 @@ import { Redirect, Link, BrowserRouter } from 'react-router-dom';
 class Profile extends Component {
   constructor(props){
     super(props);
-    this.state = { username: props.username, campus: props.campus , course:props.course, image:'' };
+    this.state = { username: props.username,  image:'' };
     this.service = new AuthService();
   }
 
   handleLogoutSubmit = (event) => {
     this.service.logout()
       .then(()=>{
-        return <Redirect to='/' />
+        this.setState({
+          username: null,
+          password: null,
+          redirectToHome :true,
+          error: false
+        });
+
       })
       .catch(()=>{
         return <Redirect to='/' />
@@ -35,7 +41,6 @@ class Profile extends Component {
   }
 
   handleChange = (event) => {
-
     const {name, value} = event.target;
     this.setState({[name]: value});
 
@@ -44,11 +49,26 @@ class Profile extends Component {
     handleChangeFile = (event) => {
         const {name, files} = event.target;
         this.setState({[name]: files});
-
     }
 
+
+  handlerLogout = (e)=>{
+    e.preventDefault();
+    this.props.logoutHandler();
+    this.setState({
+      username: null,
+      password: null,
+      redirectToHome :true,
+      error: false
+    })
+    //this.props.history.push('/')
+  }
+
   render() {
-      console.log(this.state);
+    const redirectToHome = this.state.redirectToHome;
+    if (redirectToHome === true) {
+      return <Redirect to="/" />
+    }
     return (
       <div>
         <h3>Profile</h3>
@@ -64,7 +84,7 @@ class Profile extends Component {
         </form>
 
 
-        <form onSubmit={this.handleLogoutSubmit}>
+        <form onSubmit={ e=> this.handlerLogout(e)}>
           <input type="submit" value="Logout" ></input>
         </form>
       </div>
