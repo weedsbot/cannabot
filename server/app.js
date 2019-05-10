@@ -12,7 +12,7 @@ const path         = require('path');
 const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash      = require("connect-flash");
-    
+const cors         = require('cors');
 
 mongoose
   .connect(process.env.MONGO, {useNewUrlParser: true})
@@ -33,6 +33,26 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//CORD setup
+const whitelistEnv = process.env.CORSWHITELIST;
+//const whitelist = whitelistEnv.split(',');
+const whitelist = ['http://localhost:3000']
+
+const corsOptions = {
+    origin: function(origin, callback) {
+        if (whitelist.includes(origin) || !origin) {
+            callback(null, true)
+        } else {
+            console.log(whitelist);
+            console.log(origin);
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials:true
+}
+
+app.use(cors(corsOptions));
 
 // Express View engine setup
 
@@ -78,14 +98,14 @@ require('./passport')(app);
 const index = require('./routes/index');
 app.use('/api', index);
 
-const authRoutes = require('./routes/auth');
-app.use('/auth', authRoutes);
-
 const strainRoutes = require('./routes/strains');
 app.use('/strains', strainRoutes);
 
 const userRoutes = require('./routes/user');
 app.use('/user', userRoutes);
+
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
       
 app.use((req, res) => {
 	res.sendFile(__dirname + "/public/index.html");
