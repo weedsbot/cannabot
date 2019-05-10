@@ -49,13 +49,23 @@ class App extends React.Component {
     }
   }
 
+  logoutHandler() {
+    this.service.logout()
+      .then((logoutInfo) => {
+        this.setState({
+          ...this.state,
+          loggedInUser: null
+        })
+      })
+  }
+
 
   render(){
     this.fetchUser();
     return(
       <BrowserRouter>
         <div className="App">
-          <Navbar loggedInUser={this.state.loggedInUser}></Navbar>
+          <Navbar loggedInUser={this.state.loggedInUser} logoutHandler={()=>this.logoutHandler()}></Navbar>
           <Switch>
             <Route exact path='/profile' render={() => <Profile getUser={this.getUser} />} />
             <Route exact path='/signup' render={() => <Signup getUser={this.getUser} />} />

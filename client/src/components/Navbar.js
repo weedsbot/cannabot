@@ -6,7 +6,7 @@ import AuthService from "../services/AuthService";
 class Navbar extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { loggedInUser: null };
+
         this.service = new AuthService();
     }
 
@@ -14,13 +14,6 @@ class Navbar extends React.Component {
         this.setState({
             loggedInUser: userObj
         })
-    }
-
-    logout = () => {
-        this.service.logout()
-          .then(() => {
-              this.setState({ loggedInUser: null });
-          })
     }
 
     fetchUser() {
@@ -33,13 +26,17 @@ class Navbar extends React.Component {
               })
               .catch(err => {
                   this.setState({
-                      loggedInUser: false
+                      loggedInUser: null
                   })
               })
         }
     }
 
-
+  handlerLogout = (e)=>{
+    e.preventDefault()
+    this.props.logoutHandler()
+    this.props.history.push('/')
+  }
 
     render() {
         if (this.props.loggedInUser) {
@@ -50,7 +47,7 @@ class Navbar extends React.Component {
                           <NavLink to="/" >Home</NavLink>
                           <NavLink to="/profile">Profile</NavLink>
                           <NavLink to="/userweeds" >Mis hierbas</NavLink>
-                          <NavLink to="/logout" >Logout</NavLink>
+                          <a href="#" onClick={(e) => this.handlerLogout(e)}>Logout</a>
                       </ul>
                   </div>
               </nav>
@@ -68,4 +65,4 @@ class Navbar extends React.Component {
     }
 };
 
-export default Navbar;
+export default withRouter(Navbar);
