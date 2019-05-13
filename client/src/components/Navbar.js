@@ -23,6 +23,9 @@ const styles = {
   noDecoration: {
     textDecoration: "none",
     color: "black"
+  },
+  navBg: {
+    background: 'rgba(255, 255, 255, 0.7)'
   }
 };
 
@@ -65,7 +68,7 @@ class Navbar extends React.Component {
     if (this.props.loggedInUser) {
       return (
         <div className={this.props.classes.root}>
-          <AppBar position="static" style={{ background: "transparent" }}>
+          <AppBar positionSticky className={this.props.classes.navBg}>
             <Toolbar className={this.props.classes.root}>
               <IconButton
                 className={this.props.classes.menuButton}

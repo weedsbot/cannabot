@@ -1,71 +1,65 @@
-import React, { Component } from 'react';
-import Strains from '../services/Strains';
-import StrainLittle from './StrainLittle';
+import React, { Component } from "react";
+import Strains from "../services/Strains";
+import StrainLittle from "./StrainLittle";
 import { withStyles } from "@material-ui/core/styles";
-import Typography from '@material-ui/core/Typography'
+import Typography from "@material-ui/core/Typography";
+import Pagination from "./Pagination";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
-
-import Image from "../img/bg.jpg"; // Import using relative path
 
 const styles = {
   container: {
-    background: `url(${Image}) no-repeat center center fixed`,
     height: "90vh",
-    backgroundSize: "cover",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  rectangle: {
-    background: "rgba(100,100,100,0.2)",
-    height: "30vh",
-    width: "40vw",
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'red'
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexWrap: "wrap"
   }
 };
-
 
 class WeedsGrid extends Component {
   constructor(props) {
     super(props);
     this.strainservice = new Strains();
     this.state = {
-        strains: []
-        };
+      strains: [],
+      pageOfItems: []
+    };
 
-    this.getStrains()
+    this.getStrains();
+    this.onChangePage = this.onChangePage.bind(this);
   }
-
-  getStrains(){
-    return this.strainservice.allStrains().then(payload=>{
+  getStrains() {
+    return this.strainservice.allStrains().then(payload => {
       this.setState({
         ...this.state,
         strains: payload
-      })
-    })
+      });
+    });
   }
 
+  onChangePage(pageOfItems) {
+    this.setState({ pageOfItems: pageOfItems });
+  }
 
   render() {
-    return(
-    <div>
-        <h2>Weeds Catalog</h2>
-        {
-          this.state.strains.map((strain, idx) => {
-              return (
-                <div key={strain._id}>
-                    <StrainLittle {...strain}/>
-                </div>
-              )
-          })
-        }
-    </div>
-    )
-    }
-
+    return (
+      <React.Fragment>
+        <h2>Weeds catalog</h2>
+        <div className={this.props.classes.container}>
+          {this.state.strains.map((strain, idx) => {
+            return (
+              <div key={strain._id}>
+                <StrainLittle {...strain} />
+              </div>
+            );
+          })}
+        </div>
+        {/* <Pagination
+          items={this.state.strains}
+          onChangePage={this.onChangePage}
+        /> */}
+      </React.Fragment>
+    );
+  }
 }
 export default withStyles(styles)(WeedsGrid);
-

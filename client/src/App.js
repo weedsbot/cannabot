@@ -1,19 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import AuthService from './services/AuthService';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
-import WeedsGrid from './components/WeedsGrid';
-import StrainDetails from './components/StrainDetails';
+import Homepage from './components/Homepage';
+import Logout from './components/Logout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { withStyles } from "@material-ui/core/styles";
 
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
-
-import Image from "./img/bg.jpg"; // Import using relative path
 
 class App extends React.Component {
   constructor(props) {
@@ -96,7 +93,7 @@ class App extends React.Component {
                 <Route
                   exact
                   path="/"
-                  render={() => <WeedsGrid getUser={this.getUser} />}
+                  render={() => <Homepage />}
                 />
               </Switch>
             </div>
