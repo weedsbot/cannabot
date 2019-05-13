@@ -44,7 +44,6 @@ class WeedsGrid extends Component {
   render() {
     return (
       <React.Fragment>
-        <h2>Weeds catalog</h2>
         <div className={this.props.classes.container}>
           {this.state.strains.map((strain, idx) => {
             return (

@@ -7,20 +7,29 @@ import Image from "../img/bg.jpg"; // Import using relative path
 const styles = {
   container: {
     background: `url(${Image}) no-repeat center center`,
-    height: "90vh",
+    height: "75vh",
     backgroundSize: "cover",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: "left",
+    alignItems: "up",
+    marginTop:'10vh'
   },
   rectangle: {
     background: "rgba(100,100,100,0.2)",
     height: "30vh",
-    width: "40vw",
+    width: "33vw",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    color: "red"
+    color: "white",
+    marginTop: 80
+  },
+  boldSpan: {
+    fontWeight: "bolder",
+    color: 'white',
+  },
+  white:{
+    color: 'white'
   }
 };
 
@@ -29,7 +38,12 @@ class Landing extends Component {
     return (
       <div className={this.props.classes.container}>
         <div className={this.props.classes.rectangle}>
-          <Typography variant="h3">Weed</Typography>
+          <Typography variant="h2" className={this.props.classes.white}>
+            {" "}
+            <span className={this.props.classes.boldSpan}>Find</span> <br />the
+            strain <br />
+            that suits you
+          </Typography>
         </div>
       </div>
     );

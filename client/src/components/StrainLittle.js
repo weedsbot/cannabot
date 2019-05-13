@@ -2,8 +2,6 @@ import React from "react";
 import { Redirect, withRouter, Link } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import Strains from "../services/Strains";
-import StrainDetails from "./StrainDetails";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -12,6 +10,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import Image from "../img/lemonpot_edit.jpg"; // Import using relative path
 
@@ -30,6 +30,14 @@ const styles = {
   noDecoration: {
     textDecoration: "none",
     color: "blue"
+  },
+  separateActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  buttonsMargin: {
+    padding: 5
   }
 };
 
@@ -87,7 +95,7 @@ class StrainLittle extends React.Component {
           <CardMedia
             className={this.props.classes.media}
             image={Image}
-            title="Contemplative Reptile"
+            title=""
           />
           <CardContent>
             <Typography variant="h5" component="h2">
@@ -105,11 +113,12 @@ class StrainLittle extends React.Component {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          {/* <Button size="small" color="primary">
-          Share
-        </Button> */}
-          <Button size="small" color="primary">
+        <CardActions className={this.props.classes.separateActions}>
+          <Button
+            className={this.props.classes.buttonsMargin}
+            size="small"
+            color="primary"
+          >
             <Link
               className={this.props.classes.noDecoration}
               to={`/straindetail/${this.state.idStrain}`}
@@ -118,6 +127,12 @@ class StrainLittle extends React.Component {
               More details
             </Link>
           </Button>
+          <IconButton
+            className={this.props.classes.buttonsMargin}
+            aria-label="Add to favorites"
+          >
+            <FavoriteIcon color="inherit" />
+          </IconButton>
         </CardActions>
       </Card>
     );
