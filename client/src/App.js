@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
+import StrainDetails from './components/StrainDetails';
 import Logout from './components/Logout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { withStyles } from "@material-ui/core/styles";
@@ -70,10 +71,9 @@ class App extends React.Component {
             />
             <div>
               <Switch>
-                <Route
-                  exact
-                  path="/profile"
-                  render={() => <Profile getUser={this.getUser} />}
+                <Route 
+                  exact path='/profile' 
+                  render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>} 
                 />
                 <Route
                   exact
@@ -85,12 +85,11 @@ class App extends React.Component {
                   path="/login"
                   render={() => <Login getUser={this.getUser} />}
                 />
-                <Route
-                  exact
-                  path="/logout"
-                  render={() => <Logout getUser={this.getUser} />}
+                <Route 
+                  exact path='/straindetail/:idStrain' 
+                  render={(props) => <StrainDetails {...props} getUser={this.getUser} />} 
                 />
-                <Route
+                 <Route                 
                   exact
                   path="/"
                   render={() => <Homepage />}

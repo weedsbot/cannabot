@@ -29,7 +29,7 @@ const styles = {
   },
   noDecoration: {
     textDecoration: "none",
-    color: 'blue'
+    color: "blue"
   }
 };
 
@@ -38,6 +38,7 @@ class StrainLittle extends React.Component {
     super(props);
     this.service = new AuthService();
     this.strainservice = new Strains();
+
     this.state = {
       idStrain: props._id,
       description: props.description,
@@ -48,7 +49,36 @@ class StrainLittle extends React.Component {
       positive_effects: props.positive_effects,
       race: props.race
     };
+    this.fetchUser();
   }
+
+  getUser = userObj => {
+    this.setState({
+      loggedInUser: userObj
+    });
+  };
+
+  fetchUser() {
+    if (this.state.loggedInUser === null) {
+      return this.service
+        .loggedin()
+        .then(response => {
+          this.setState({
+            loggedInUser: response
+          });
+        })
+        .catch(err => {
+          this.setState({
+            loggedInUser: null
+          });
+        });
+    }
+  }
+
+  handleFavoriteSubmit = event => {
+    event.preventDefault();
+    const username = this.state.username;
+  };
 
   render() {
     return (
@@ -63,7 +93,11 @@ class StrainLittle extends React.Component {
             <Typography variant="h5" component="h2">
               {this.state.name}
             </Typography>
-            <Typography className={this.props.classes.upperCase} variant="subtitle1" color="textSecondary">
+            <Typography
+              className={this.props.classes.upperCase}
+              variant="subtitle1"
+              color="textSecondary"
+            >
               {this.state.race}
             </Typography>
             <Typography component="p" noWrap="true">
@@ -73,10 +107,13 @@ class StrainLittle extends React.Component {
         </CardActionArea>
         <CardActions>
           {/* <Button size="small" color="primary">
-            Share
-          </Button> */}
+          Share
+        </Button> */}
           <Button size="small" color="primary">
-            <Link className={this.props.classes.noDecoration} to={`/straindetail/${this.state.idStrain}`}>
+            <Link
+              className={this.props.classes.noDecoration}
+              to={`/straindetail/${this.state.idStrain}`}
+            >
               {" "}
               More details
             </Link>
