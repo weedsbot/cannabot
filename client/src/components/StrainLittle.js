@@ -14,6 +14,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import Image from "../img/lemonpot_edit.jpg"; // Import using relative path
+import favorite from "../img/favorite.png";
+import noFavorite from "../img/no_favorite.png";
 
 const styles = {
   card: {
@@ -47,13 +49,18 @@ class StrainLittle extends React.Component {
       name: props.name,
       negative_effects: props.negative_effects,
       positive_effects: props.positive_effects,
-      race: props.race
+      race: props.race,
+      loggedInUser: null,
+      inFavorites:true
     };
-    this.fetchUser();
+    this.state.loggedInUser = this.fetchUser();
+    this.getUser();
+    //this.state.inFavorites = this.checkStrainFavorite();
   }
 
   getUser = userObj => {
     this.setState({
+      ...this.state,
       loggedInUser: userObj
     });
   };
@@ -63,6 +70,7 @@ class StrainLittle extends React.Component {
       return this.service
         .loggedin()
         .then(response => {
+          console.log(response);
           this.setState({
             loggedInUser: response
           });
@@ -75,9 +83,21 @@ class StrainLittle extends React.Component {
     }
   }
 
-  handleFavoriteSubmit = event => {
+  checkStrainFavorite(){
+    return this.state.loggedInUser.strains.includes(this.state.idStrain);
+  }
+
+  handlerFavoriteSubmit = event => {
     event.preventDefault();
-    const username = this.state.username;
+    const username = this.state.loggedInUser.username;
+    const iduser = this.state.loggedInUser._id;
+    const idStrain = this.state.idStrain;
+    const inFavorites = this.state.inFavorites;
+    const action = !this.state.loggedInUser.strains.includes(this.state.idStrain);
+    console.log(idStrain,iduser,action);
+    let userUpdated = this.service.changeStrainFavoriteList(idStrain,iduser,action);
+    console.log(userUpdated)
+    this.getUser(userUpdated);
   };
 
   render() {
@@ -118,6 +138,21 @@ class StrainLittle extends React.Component {
               More details
             </Link>
           </Button>
+          {this.state.loggedInUser && this.state.loggedInUser.strains !== undefined ?
+          <Button size="small" color="primary">
+            <a
+              href="#"
+              className={this.props.classes.noDecoration}
+              onClick={e => this.handlerFavoriteSubmit(e)}
+            >
+              <img src={this.state.loggedInUser.strains.includes(this.state.idStrain)
+                ? favorite
+                : noFavorite }>
+              </img>
+            </a>
+          </Button>
+          :''
+          }
         </CardActions>
       </Card>
     );

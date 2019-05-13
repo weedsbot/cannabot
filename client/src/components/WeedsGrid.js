@@ -28,6 +28,7 @@ class WeedsGrid extends Component {
     this.getStrains();
     this.onChangePage = this.onChangePage.bind(this);
   }
+
   getStrains() {
     return this.strainservice.allStrains().then(payload => {
       this.setState({
@@ -46,7 +47,7 @@ class WeedsGrid extends Component {
       <React.Fragment>
         <h2>Weeds catalog</h2>
         <div className={this.props.classes.container}>
-          {this.state.strains.map((strain, idx) => {
+          {this.state.strains.slice(0, 10).map((strain, idx) => {
             return (
               <div key={strain._id}>
                 <StrainLittle {...strain} />

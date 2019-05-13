@@ -84,7 +84,8 @@ router.post("/signup", ensureLoggedOut(), (req, res, next) => {
 
 router.get('/loggedin', (req,res,next) => {
   if(req.user){
-    console.log(req.user)
+    //console.log(req.user)
+
     res.status(200).json(req.user);
   }else{
     next(res.status(500).json({error:"Nobody loggedin"}))
@@ -139,6 +140,40 @@ router.post("/uploadpic", uploadCloud.single('image') ,(req, res, next) =>{
   }else{
     next(new Error('Not logged in'))
   }
+})
+
+// router.post("/strainfavchange/:idStrain/:inFavorites/:idUser", (req,res,next)=>{
+//   req.params.idStrain
+//   req.params.idUser
+//   req.params.inFavorites
+//
+//
+//
+// });
+
+router.put("/strainFavAdd/:idUser/:idStrain", (req, res, next)=>{
+  let idStrain = req.params.idStrain;
+  let idUser = req.params.idUser;
+  console.log("strainFavAdd ", idUser, idStrain);
+  User.findOneAndUpdate(
+    {"_id" : idUser},
+    {$addToSet: { strains: idStrain }},{ new: true })
+    .then((userUpdated) => {
+      console.log(userUpdated)
+      userUpdated.data})
+
+})
+
+router.put("/strainFavRemove/:idUser/:idStrain", (req, res, next)=>{
+  let idStrain = req.params.idStrain;
+  let idUser = req.params.idUser;
+  console.log("strainFavRemove ", idUser, idStrain);
+  User.findOneAndUpdate(
+    {"_id" : idUser},
+    {$pull: { strains: idStrain }},{ new: true })
+    .then((userUpdated) => {
+      console.log(userUpdated)
+      userUpdated.data})
 })
 
 module.exports = router;

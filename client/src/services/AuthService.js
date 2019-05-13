@@ -26,7 +26,7 @@ class AuthService {
 
   loggedin = () => {
     return this.service.get('/auth/loggedin',)
-    .then(response => response.data)
+    .then((response) => response.data)
   }
 
   logout = () => {
@@ -52,6 +52,20 @@ class AuthService {
 
   }
 
+  changeStrainFavoriteList = (idStrain,idUser,action) => {
+    if(action){
+      console.log("Client strainFavAdd ", idUser, idStrain);
+      return this.service.put(`/auth/strainFavAdd/${idUser}/${idStrain}`)
+        .then(response => {
+          return response.data;
+        })
+    }else{
+      console.log("strainFavRemove ", idUser, idStrain);
+      return this.service.put(`/auth/strainFavRemove/${idUser}/${idStrain}`)
+        .then(response => {
+          return response.data;
+        })}
+  }
 
 
 }

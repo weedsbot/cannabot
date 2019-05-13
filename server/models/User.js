@@ -5,7 +5,7 @@ const userSchema = new Schema({
   image_url: { type: String },
   username: { type: String, required: true },
   password: {type: String, required: true},
-  strains: [{ type: Schema.Types.ObjectId, ref: "Strain" }],
+  strains: [{ type: Schema.Types.ObjectId, ref: "Strain" ,unique:true}],
   rol: {enum : ['admin','partner','groupAdmin']}
 });
 
