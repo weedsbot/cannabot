@@ -4,6 +4,7 @@ import './App.css';
 import AuthService from './services/AuthService';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Logout from './components/Logout'
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import WeedsGrid from './components/WeedsGrid';

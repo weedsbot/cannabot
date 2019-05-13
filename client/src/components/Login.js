@@ -84,7 +84,6 @@ class Login extends Component {
   };
 
   render() {
-<<<<<<< HEAD
     const redirectToHome = this.state.redirectToHome;
     if (redirectToHome === true) {
       return <Redirect to="/" />
