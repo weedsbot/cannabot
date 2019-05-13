@@ -20,7 +20,38 @@ class StrainLittle extends React.Component {
       positive_effects:props.positive_effects,
       race:props.race
     }
+    this.fetchUser();
   }
+
+  getUser = userObj => {
+    this.setState({
+      loggedInUser: userObj
+    });
+  };
+
+  fetchUser() {
+    if (this.state.loggedInUser === null) {
+      return this.service
+        .loggedin()
+        .then(response => {
+          this.setState({
+            loggedInUser: response
+          });
+        })
+        .catch(err => {
+          this.setState({
+            loggedInUser: null
+          });
+        });
+    }
+  }
+
+  handleFavoriteSubmit = event => {
+    event.preventDefault();
+    const username = this.state.username;
+
+  };
+
 
   render(){
     return(
