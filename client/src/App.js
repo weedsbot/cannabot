@@ -76,10 +76,6 @@ class App extends React.Component {
                   render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>} 
                 />
                 <Route
-                  exact path='/userweeds'
-                  render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>}
-                />
-                <Route
                   exact
                   path="/signup"
                   render={() => <Signup getUser={this.getUser} />}

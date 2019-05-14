@@ -161,7 +161,9 @@ class StrainLittle extends React.Component {
               className={this.props.classes.buttonsMargin}
               aria-label="Add to favorites"
             >
-            <FavoriteIcon color={this.state.loggedInUser.strains.includes(this.state.idStrain)
+            <FavoriteIcon
+              onClick={e => this.handlerFavoriteSubmit(e)}
+              color={this.state.loggedInUser.strains.includes(this.state.idStrain)
               ? 'error'
               : 'inherit' } />
             </IconButton>
