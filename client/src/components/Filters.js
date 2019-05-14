@@ -3,16 +3,20 @@ import { withStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import FilledInput from "@material-ui/core/FilledInput";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
 
 const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    minWidth: 200
+  },
+  input: {
+    display: 'none',
+  },
   container: {
     display: "flex",
     backgroundColor: "rgba(100,100,100,0.2)",
@@ -42,9 +46,9 @@ const styles = theme => ({
     margin: 10,
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: fade(theme.palette.common.white, 0.25),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.45)
     },
     marginRight: theme.spacing.unit * 2,
     marginLeft: 0,
@@ -76,18 +80,6 @@ const styles = theme => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: 200
-    }
-  },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex"
-    }
-  },
-  sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none"
     }
   },
   root: {
@@ -248,6 +240,9 @@ class Filters extends Component {
             <option value={30}>Thirty</option>
           </Select>
         </FormControl>
+        <Button variant="outlined" color="primary" className={this.props.classes.button}>
+          Search
+        </Button>
       </div>
     );
   }
