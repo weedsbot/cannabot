@@ -67,8 +67,7 @@ class Signup extends Component {
     this.state = {
       username: "",
       password: "",
-      campus: "",
-      course: "",
+      password2: "",
       redirectToReferrer: false
     };
     this.service = new AuthService();
@@ -78,15 +77,15 @@ class Signup extends Component {
     event.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
-    const campus = this.state.campus;
-    const course = this.state.course;
+    const password2 = this.state.password2;
 
     this.service
-      .signup(username, password, campus, course)
+      .signup(username, password, password2)
       .then(response => {
         this.setState({
           username: "",
           password: "",
+          password2: "",
           redirectToReferrer: true
         });
         this.props.getUser(response.user);
@@ -95,7 +94,8 @@ class Signup extends Component {
         this.setState({
           username: username,
           password: password,
-          error: true
+          password2: password2,
+          error: error
         });
       });
   };
@@ -118,7 +118,7 @@ class Signup extends Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <form
             className={this.props.classes.form}
@@ -155,6 +155,21 @@ class Signup extends Component {
                 required
               />
             </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <TextField
+                id="outlined-password-input"
+                label="Repeat Password"
+                className={this.props.classes.textField}
+                type="password2"
+                autoComplete="current-password"
+                margin="normal"
+                variant="outlined"
+                name="password2"
+                value={this.state.password2}
+                onChange={e => this.handleChange(e)}
+                required
+              />
+            </FormControl>
             <Button
               type="submit"
               fullWidth
@@ -163,11 +178,11 @@ class Signup extends Component {
               className={this.props.classes.submit}
               value="Sign up"
             >
-              Sign in
+              Sign up
             </Button>
           </form>
           <Typography variant="h5">
-            {this.state.error ? "Error" : ""}
+            {this.state.error ? 'Error' : ""}
           </Typography>{" "}
         </Paper>
       </main>

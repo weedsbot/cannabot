@@ -9,6 +9,7 @@ import Homepage from './components/Homepage';
 import StrainDetails from './components/StrainDetails';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import WeedsGrid from './components/WeedsGrid';
+import Search from './components/Search';
 
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
@@ -96,6 +97,11 @@ class App extends React.Component {
                   exact
                   path="/userweeds"
                   render={() => <WeedsGrid user={this.state.loggedInUser} />}
+                />
+                <Route
+                  exact
+                  path="/searchstrains"
+                  render={() => <Search />}
                 />
               </Switch>
             </div>

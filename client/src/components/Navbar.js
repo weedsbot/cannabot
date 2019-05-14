@@ -25,7 +25,7 @@ const styles = {
     color: "inherit"
   },
   navBg: {
-    background: 'rgba(255, 255, 255, 0.7)'
+    background: "rgba(255, 255, 255, 0.7)"
   }
 };
 
@@ -84,6 +84,14 @@ class Navbar extends React.Component {
               <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink
                   className={this.props.classes.noDecoration}
+                  to="/searchstrains"
+                >
+                  Search
+                </NavLink>
+              </Typography>
+              <Typography variant="h6" className={this.props.classes.grow}>
+                <NavLink
+                  className={this.props.classes.noDecoration}
                   to="/profile"
                 >
                   Profile
@@ -128,7 +136,14 @@ class Navbar extends React.Component {
                   Home
                 </NavLink>
               </Typography>
-
+              <Typography variant="h6" className={this.props.classes.grow}>
+                <NavLink
+                  className={this.props.classes.noDecoration}
+                  to="/searchstrains"
+                >
+                  Search
+                </NavLink>
+              </Typography>
               <Button>
                 <NavLink
                   className={this.props.classes.noDecoration}

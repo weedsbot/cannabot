@@ -19,6 +19,13 @@ class Strains {
       })
   }
 
+  allStrainsNumber = () => {
+    return this.service.get(`/strains/allStrainsNumber/`)
+      .then(response => {
+        return response.data;
+      })
+  }
+
   findOneStrainById = (idStrain)=>{
     return this.service.get(`/strains/strain/${idStrain}`)
       .then(response => {

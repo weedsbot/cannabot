@@ -26,7 +26,7 @@ const styles = {
     flexWrap: "wrap"
   },
   paginator: {
-    marginTop: "30px"
+    marginTop: "70px"
   }
 };
 
@@ -37,10 +37,12 @@ class WeedsGrid extends Component {
     this.service = new AuthService();
     this.state = {
       strains: [],
-      offset: 0
+      offset: 0,
+      allStrainsNumber: 0
     };
 
     this.componentDidMount();
+    this.setNumberOfStrains();
   }
 
   componentDidMount() {
@@ -48,7 +50,7 @@ class WeedsGrid extends Component {
       return this.service.getUserById(this.props.user._id).then(user => {
         this.setState({
           ...this.state,
-          strains: user.strains
+          strains: user.strains.slice(0, 8)
         });
       });
     } else {
@@ -62,33 +64,58 @@ class WeedsGrid extends Component {
   }
 
   handleClick(offset) {
-    return this.strainservice.allStrains(offset).then(payload => {
-      this.setState({
-        ...this.state,
-        strains: payload,
-        offset
+    if (this.props.user) {
+      return this.service.getUserById(this.props.user._id).then(user => {
+        this.setState({
+          ...this.state,
+          strains: user.strains.slice(offset, offset+8),
+          offset
+        });
       });
-    });
+    } else {
+      return this.strainservice.allStrains(offset).then(payload => {
+        this.setState({
+          ...this.state,
+          strains: payload,
+          offset
+        });
+      });
+    }
   }
+
+  setNumberOfStrains = () => {
+    debugger;
+    if (this.props.user) {
+      return this.service.getUserById(this.props.user._id).then(user => {
+        this.setState({
+          ...this.state,
+          allStrainsNumber: user.strains.length
+        });
+      });
+    } else {
+      return this.strainservice.allStrainsNumber().then(payload => {
+        this.setState({
+          ...this.state,
+          allStrainsNumber: payload
+        });
+      });
+    }
+  };
 
   render() {
     return (
       <div className={this.props.classes.main}>
-        {this.props.user ? (
-          <div style={{height: '80px'}}></div>
-        ) : (
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <Pagination
-              size="large"
-              className={this.props.classes.paginator}
-              limit={8}
-              offset={this.state.offset}
-              total={1970}
-              onClick={(e, offset) => this.handleClick(offset)}
-            />
-          </MuiThemeProvider>
-        )}
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <Pagination
+            size="large"
+            className={this.props.classes.paginator}
+            limit={8}
+            offset={this.state.offset}
+            total={this.state.allStrainsNumber}
+            onClick={(e, offset) => this.handleClick(offset)}
+          />
+        </MuiThemeProvider>
 
         <div className={this.props.classes.container}>
           {this.state.strains.map((strain, idx) => {

@@ -14,6 +14,14 @@ router.get("/allStrains/:offset", (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.get("/allStrainsNumber", (req, res, next) => {
+  Strain.find()
+    .then(allStrains => {
+      res.json(allStrains.length);
+    })
+    .catch(err => res.json(err));
+});
+
 router.get("/strain/:id", (req, res, next) => {
   Strain.findById(req.params.id)
     .then(strain => {
