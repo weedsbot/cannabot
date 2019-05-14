@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { Redirect } from "react-router-dom";
 import Signup from "./Signup";

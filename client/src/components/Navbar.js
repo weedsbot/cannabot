@@ -22,7 +22,7 @@ const styles = {
   },
   noDecoration: {
     textDecoration: "none",
-    color: "black"
+    color: "inherit"
   },
   navBg: {
     background: 'rgba(255, 255, 255, 0.7)'

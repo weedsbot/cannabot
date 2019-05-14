@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import AuthService from "../services/AuthService";
-import { Redirect, Link, BrowserRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
-import List from "@material-ui/core/List";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
@@ -195,6 +192,7 @@ class Profile extends Component {
                       : this.state.loggedInUser.image_url
                   }
                   title={this.state.loggedInUser.username}
+                  alt='#'
                 />
                 <form onSubmit={e => this.handleImageSubmit(e)}>
                   <input

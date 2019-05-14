@@ -27,7 +27,6 @@ class WeedsGrid extends Component {
     };
 
     this.componentDidMount();
-    this.onChangePage = this.onChangePage.bind(this);
   }
 
   componentDidMount() {

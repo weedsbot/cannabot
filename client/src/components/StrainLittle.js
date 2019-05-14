@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import Strains from "../services/Strains";
 import { withStyles } from "@material-ui/core/styles";
@@ -14,8 +14,6 @@ import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import Image from "../img/lemonpot_edit.jpg"; // Import using relative path
-import favorite from "../img/favorite.png";
-import noFavorite from "../img/no_favorite.png";
 
 const styles = {
   card: {

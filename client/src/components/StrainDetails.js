@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import Strains from "../services/Strains";
 import Typography from "@material-ui/core/Typography";
@@ -171,6 +171,7 @@ class StrainDetails extends React.Component {
               className={this.props.classes.media}
               src={this.setImage()}
               title={this.state.strainDetails.name}
+              alt='#'
             />
             <form onSubmit={e => this.handleImageSubmit(e)}>
               <input
