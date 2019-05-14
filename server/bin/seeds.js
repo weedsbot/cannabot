@@ -46,6 +46,7 @@ Strain.deleteMany().then(() => {
             negative_effects: effects.negative,
             medical_effects: effects.medical,
             stock: "",
+            image_url: "",
             description: JSON.parse(description).desc
           });
           newStrain

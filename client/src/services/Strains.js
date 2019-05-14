@@ -25,10 +25,22 @@ class Strains {
         return response.data;
       })
   }
-
-
-
-
+ 
+  uploadPicture(props) {
+    const formData = new FormData();
+    formData.append("strainId", props.idStrain);
+    formData.append("image", props.image[0]);
+    return this.service
+      .post('/strains/uploadpic', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => response.data )
+      .catch(
+          err => err.data
+      )
+  }
 
 }
 

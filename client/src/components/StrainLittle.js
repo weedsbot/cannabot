@@ -61,8 +61,9 @@ class StrainLittle extends React.Component {
       negative_effects: props.negative_effects,
       positive_effects: props.positive_effects,
       race: props.race,
+      image_url: props.image_url,
       loggedInUser: null,
-      inFavorites:true
+      inFavorites: true
     };
     this.state.loggedInUser = this.fetchUser();
     this.getUser();
@@ -94,7 +95,7 @@ class StrainLittle extends React.Component {
     }
   }
 
-  checkStrainFavorite(){
+  checkStrainFavorite() {
     return this.state.loggedInUser.strains.includes(this.state.idStrain);
   }
 
@@ -104,17 +105,18 @@ class StrainLittle extends React.Component {
     const iduser = this.state.loggedInUser._id;
     const idStrain = this.state.idStrain;
     const inFavorites = this.state.inFavorites;
-    const action = !this.state.loggedInUser.strains.includes(this.state.idStrain);
-    //console.log(this.state.loggedInUser.strains);
-    this.service.changeStrainFavoriteList(idStrain,iduser,action).then((userUpdated)=>{
-      this.setState({
-        ...this.state,
-        loggedInUser: userUpdated
-      });
-      }
+    const action = !this.state.loggedInUser.strains.includes(
+      this.state.idStrain
     );
-
-
+    //console.log(this.state.loggedInUser.strains);
+    this.service
+      .changeStrainFavoriteList(idStrain, iduser, action)
+      .then(userUpdated => {
+        this.setState({
+          ...this.state,
+          loggedInUser: userUpdated
+        });
+      });
   };
 
   render() {
@@ -123,8 +125,12 @@ class StrainLittle extends React.Component {
         <CardActionArea>
           <CardMedia
             className={this.props.classes.media}
-            image={Image}
-            title=""
+            image={
+              this.state.image_url === ""
+                ? Image
+                : this.state.image_url
+            }
+            title={this.state.name}
           />
           <CardContent className={this.props.classes.cardContentHeigth}>
             <Typography variant="h5" component="h2">
@@ -156,18 +162,24 @@ class StrainLittle extends React.Component {
               More details
             </Link>
           </Button>
-          {this.state.loggedInUser && this.state.loggedInUser.strains !== undefined ?
+          {this.state.loggedInUser &&
+          this.state.loggedInUser.strains !== undefined ? (
             <IconButton
               className={this.props.classes.buttonsMargin}
               aria-label="Add to favorites"
             >
-            <FavoriteIcon
-              onClick={e => this.handlerFavoriteSubmit(e)}
-              color={this.state.loggedInUser.strains.includes(this.state.idStrain)
-              ? 'error'
-              : 'inherit' } />
+              <FavoriteIcon
+                onClick={e => this.handlerFavoriteSubmit(e)}
+                color={
+                  this.state.loggedInUser.strains.includes(this.state.idStrain)
+                    ? "error"
+                    : "inherit"
+                }
+              />
             </IconButton>
-          :''}
+          ) : (
+            ""
+          )}
         </CardActions>
       </Card>
     );
