@@ -49,8 +49,8 @@ class AuthService {
       .catch(
           err => err.data
       )
-
   }
+
 
   changeStrainFavoriteList = (idStrain,idUser,action) => {
     let result = null;
@@ -72,6 +72,12 @@ class AuthService {
   }
 
 
+  getUserById = (id) =>{
+    return this.service.get(`user/${id}`,)
+    .then(response => {
+      return response.data
+    })
+  }
 }
 
 export default AuthService;

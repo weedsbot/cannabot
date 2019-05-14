@@ -94,7 +94,7 @@ class Navbar extends React.Component {
                   className={this.props.classes.noDecoration}
                   to="/userweeds"
                 >
-                  Mis hierbas
+                  My Strains
                 </NavLink>
               </Typography>
 
@@ -115,7 +115,7 @@ class Navbar extends React.Component {
     } else {
       return (
         <div className={this.props.classes.root}>
-          <AppBar position="static" style={{ background: "transparent" }}>
+          <AppBar positionSticky className={this.props.classes.navBg}>
             <Toolbar className={this.props.classes.root}>
               <IconButton
                 className={this.props.classes.menuButton}

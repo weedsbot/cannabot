@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Strains from "../services/Strains";
+import AuthService from '../services/AuthService';
 import StrainLittle from "./StrainLittle";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,22 +21,33 @@ class WeedsGrid extends Component {
   constructor(props) {
     super(props);
     this.strainservice = new Strains();
+    this.service = new AuthService();
     this.state = {
       strains: [],
       pageOfItems: []
     };
 
-    this.getStrains();
+    this.componentDidMount();
     this.onChangePage = this.onChangePage.bind(this);
   }
 
-  getStrains() {
-    return this.strainservice.allStrains().then(payload => {
-      this.setState({
-        ...this.state,
-        strains: payload
+
+  componentDidMount(){
+    if (this.props.user) {
+      return this.service.getUserById(this.props.user._id).then(user => {
+        this.setState({
+          ...this.state,
+          strains: user.strains
+        });
       });
-    });
+    } else {
+      return this.strainservice.allStrains().then(payload => {
+        this.setState({
+          ...this.state,
+          strains: payload
+        });
+      });
+    }
   }
 
   onChangePage(pageOfItems) {
@@ -45,7 +57,6 @@ class WeedsGrid extends Component {
   render() {
     return (
       <React.Fragment>
-        <h2>Weeds catalog</h2>
         <div className={this.props.classes.container}>
           {this.state.strains.slice(0, 10).map((strain, idx) => {
             return (
