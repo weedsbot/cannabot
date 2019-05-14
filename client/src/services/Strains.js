@@ -12,8 +12,8 @@ class Strains {
     });
   }
 
-  allStrains = () => {
-    return this.service.get('/strains/allStrains')
+  allStrains = (offset) => {
+    return this.service.get(`/strains/allStrains/${offset}`)
       .then(response => {
         return response.data;
       })

@@ -17,9 +17,9 @@ const styles = {
   rectangle: {
     background: "rgba(100,100,100,0.2)",
     height: "30vh",
-    width: "33vw",
+    width: "100vw",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "left",
     alignItems: "center",
     color: "white",
     marginTop: 80
@@ -29,7 +29,8 @@ const styles = {
     color: 'white',
   },
   white:{
-    color: 'white'
+    color: 'white',
+    marginLeft: '5vw'
   }
 };
 
