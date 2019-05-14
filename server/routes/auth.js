@@ -142,38 +142,29 @@ router.post("/uploadpic", uploadCloud.single('image') ,(req, res, next) =>{
   }
 })
 
-// router.post("/strainfavchange/:idStrain/:inFavorites/:idUser", (req,res,next)=>{
-//   req.params.idStrain
-//   req.params.idUser
-//   req.params.inFavorites
-//
-//
-//
-// });
 
-router.put("/strainFavAdd/:idUser/:idStrain", (req, res, next)=>{
+
+router.put("/strainFavAdd/:idStrain", (req, res, next)=>{
   let idStrain = req.params.idStrain;
-  let idUser = req.params.idUser;
-  console.log("strainFavAdd ", idUser, idStrain);
-  User.findOneAndUpdate(
-    {"_id" : idUser},
+  let idUser = req.user._id;
+  //console.log("strainFavAdd ", idUser, idStrain);
+  User.findByIdAndUpdate(idUser,
     {$addToSet: { strains: idStrain }},{ new: true })
     .then((userUpdated) => {
       console.log(userUpdated)
-      userUpdated.data})
+      return res.json(userUpdated)})
 
 })
 
-router.put("/strainFavRemove/:idUser/:idStrain", (req, res, next)=>{
+router.put("/strainFavRemove/:idStrain", (req, res, next)=>{
   let idStrain = req.params.idStrain;
-  let idUser = req.params.idUser;
-  console.log("strainFavRemove ", idUser, idStrain);
-  User.findOneAndUpdate(
-    {"_id" : idUser},
+  let idUser = req.user._id;
+  //console.log("strainFavRemove ", idUser, idStrain);
+  User.findByIdAndUpdate(idUser,
     {$pull: { strains: idStrain }},{ new: true })
     .then((userUpdated) => {
       console.log(userUpdated)
-      userUpdated.data})
+      return res.json(userUpdated)})
 })
 
 module.exports = router;

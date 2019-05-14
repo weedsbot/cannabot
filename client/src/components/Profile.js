@@ -5,8 +5,31 @@ import { Redirect, Link, BrowserRouter } from 'react-router-dom';
 class Profile extends Component {
   constructor(props){
     super(props);
-    this.state = { username: props.username,  image:'' };
     this.service = new AuthService();
+    this.state = {
+      loggedInUser: null,
+      username: '',
+      image_url: ''
+    };
+    this.fetchUser()
+  }
+
+
+  fetchUser() {
+    if (this.state.loggedInUser === null) {
+      return this.service
+        .loggedin()
+        .then(response => {
+          this.setState({
+            loggedInUser: response
+          });
+        })
+        .catch(err => {
+          this.setState({
+            loggedInUser: false
+          });
+        });
+    }
   }
 
   handleLogoutSubmit = (event) => {
@@ -32,7 +55,9 @@ class Profile extends Component {
       .then((response)=>{
           this.setState({
               ...this.state,
-              image : response.userUpdated.image
+            loggedInUser: response.userUpdated,
+            username : this.state.loggedInUser.username,
+            image_url : response.userUpdated.image
           })
       })
       .catch(()=>{
@@ -46,10 +71,10 @@ class Profile extends Component {
 
   }
 
-    handleChangeFile = (event) => {
-        const {name, files} = event.target;
-        this.setState({[name]: files});
-    }
+  handleChangeFile = (event) => {
+      const {name, files} = event.target;
+      this.setState({[name]: files});
+  }
 
 
   handlerLogout = (e)=>{
@@ -65,6 +90,7 @@ class Profile extends Component {
   }
 
   render() {
+    console.log(this.state)
     const redirectToHome = this.state.redirectToHome;
     if (redirectToHome === true) {
       return <Redirect to="/" />
@@ -73,8 +99,14 @@ class Profile extends Component {
       <div>
         <h3>Profile</h3>
         <p>Username</p>
-        <p>{this.props.username}</p>
-        <img src={this.props.image}></img>
+
+        { this.state.loggedInUser !== null &&
+          <div>
+            <p>{this.state.loggedInUser.username}</p>
+            <img src={this.state.loggedInUser.image_url}></img>
+          </div>
+        }
+
         <form onSubmit={ e => this.handleImageSubmit(e)}>
           <fieldset>
             <label>Update picture</label>

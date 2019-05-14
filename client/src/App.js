@@ -37,7 +37,6 @@ class App extends React.Component {
       return this.service
         .loggedin()
         .then(response => {
-          console.log("App fetch user", response);
           this.setState({
             loggedInUser: response
           });
@@ -74,6 +73,10 @@ class App extends React.Component {
                 <Route 
                   exact path='/profile' 
                   render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>} 
+                />
+                <Route
+                  exact path='/userweeds'
+                  render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>}
                 />
                 <Route
                   exact

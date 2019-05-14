@@ -40,7 +40,7 @@ class AuthService {
     formData.append("username", props.username);
     formData.append("image", props.image[0]);
     return this.service
-      .post('/auth/upload', formData, {
+      .post('/auth/uploadpic', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -53,18 +53,22 @@ class AuthService {
   }
 
   changeStrainFavoriteList = (idStrain,idUser,action) => {
+    let result = null;
     if(action){
-      console.log("Client strainFavAdd ", idUser, idStrain);
-      return this.service.put(`/auth/strainFavAdd/${idUser}/${idStrain}`)
+      //console.log("Client strainFavAdd ", idUser, idStrain);
+      return this.service.put(`/auth/strainFavAdd/${idStrain}`)
         .then(response => {
+          //console.log(response);
           return response.data;
         })
     }else{
-      console.log("strainFavRemove ", idUser, idStrain);
-      return this.service.put(`/auth/strainFavRemove/${idUser}/${idStrain}`)
+      //console.log("strainFavRemove ", idUser, idStrain);
+      return this.service.put(`/auth/strainFavRemove/${idStrain}`)
         .then(response => {
+          //console.log(response);
           return response.data;
         })}
+
   }
 
 

@@ -70,7 +70,7 @@ class StrainLittle extends React.Component {
       return this.service
         .loggedin()
         .then(response => {
-          console.log(response);
+          //console.log(response);
           this.setState({
             loggedInUser: response
           });
@@ -94,10 +94,16 @@ class StrainLittle extends React.Component {
     const idStrain = this.state.idStrain;
     const inFavorites = this.state.inFavorites;
     const action = !this.state.loggedInUser.strains.includes(this.state.idStrain);
-    console.log(idStrain,iduser,action);
-    let userUpdated = this.service.changeStrainFavoriteList(idStrain,iduser,action);
-    console.log(userUpdated)
-    this.getUser(userUpdated);
+    //console.log(this.state.loggedInUser.strains);
+    this.service.changeStrainFavoriteList(idStrain,iduser,action).then((userUpdated)=>{
+      this.setState({
+        ...this.state,
+        loggedInUser: userUpdated
+      });
+      }
+    );
+
+
   };
 
   render() {
