@@ -18,7 +18,7 @@ import Image from "../img/lemonpot_edit.jpg"; // Import using relative path
 const styles = {
   card: {
     width: 300,
-    height: 298,
+    height: 340,
     margin: 15
   },
   media: {
@@ -37,7 +37,10 @@ const styles = {
     alignItems: "center"
   },
   buttonsMargin: {
-    padding: 5
+    padding: 7
+  },
+  cardContentHeigth: {
+    height: 150
   }
 };
 
@@ -97,7 +100,7 @@ class StrainLittle extends React.Component {
             image={Image}
             title=""
           />
-          <CardContent>
+          <CardContent className={this.props.classes.cardContentHeigth}>
             <Typography variant="h5" component="h2">
               {this.state.name}
             </Typography>

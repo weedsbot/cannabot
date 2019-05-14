@@ -49,11 +49,14 @@ class AuthService {
       .catch(
           err => err.data
       )
-
   }
 
-
-
+  getUserById = (id) =>{
+    return this.service.get(`user/${id}`,)
+    .then(response => {
+      return response.data
+    })
+  }
 }
 
 export default AuthService;

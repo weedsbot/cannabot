@@ -5,7 +5,7 @@ const Strain = require("../models/Strain");
 router.get("/allStrains", (req, res, next) => {
   Strain.find()
     .then(allStrains => {
-      res.json(allStrains);
+      res.json(allStrains.slice(0,20));
     })
     .catch(err => res.json(err));
 });
