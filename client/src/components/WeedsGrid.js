@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import Strains from "../services/Strains";
-import AuthService from '../services/AuthService';
+import AuthService from "../services/AuthService";
 import StrainLittle from "./StrainLittle";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Pagination from "./Pagination";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 
 const styles = {
   container: {
-    marginTop: '10vh',
+    marginTop: "10vh",
     height: "90vh",
     display: "flex",
     justifyContent: "space-around",
@@ -24,16 +23,14 @@ class WeedsGrid extends Component {
     this.strainservice = new Strains();
     this.service = new AuthService();
     this.state = {
-      strains: [],
-      pageOfItems: []
+      strains: []
     };
 
     this.componentDidMount();
     this.onChangePage = this.onChangePage.bind(this);
   }
 
-
-  componentDidMount(){
+  componentDidMount() {
     if (this.props.user) {
       return this.service.getUserById(this.props.user._id).then(user => {
         this.setState({
@@ -51,10 +48,6 @@ class WeedsGrid extends Component {
     }
   }
 
-  onChangePage(pageOfItems) {
-    this.setState({ pageOfItems: pageOfItems });
-  }
-
   render() {
     return (
       <React.Fragment>
@@ -67,10 +60,6 @@ class WeedsGrid extends Component {
             );
           })}
         </div>
-        {/* <Pagination
-          items={this.state.strains}
-          onChangePage={this.onChangePage}
-        /> */}
       </React.Fragment>
     );
   }

@@ -135,7 +135,7 @@ class StrainDetails extends React.Component {
     this.setState({ [name]: files });
   };
 
-  setImage = () => {
+  setImage = () => {  
     if (this.state.image_url !== "") return this.state.image_url;
     else if (this.state.strainDetails.image_url === "") return Image;
     else return this.state.strainDetails.image_url;
