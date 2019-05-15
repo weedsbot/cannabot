@@ -53,6 +53,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
+    display:'flex',
+    justifyContent:'space-around',
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit
   },
@@ -61,7 +63,7 @@ const styles = theme => ({
   },
   media: {
     height: "60vh",
-    maxWidth: '50vw',
+    maxWidth: "50vw",
     padding: "3vh"
   },
   textInfo: {
@@ -192,9 +194,12 @@ class Profile extends Component {
                       : this.state.loggedInUser.image_url
                   }
                   title={this.state.loggedInUser.username}
-                  alt='#'
+                  alt="#"
                 />
-                <form onSubmit={e => this.handleImageSubmit(e)}>
+                <form
+                  onSubmit={e => this.handleImageSubmit(e)}
+                  className={this.props.classes.form}
+                >
                   <input
                     accept="image/*"
                     className={this.props.classes.input}
@@ -213,12 +218,12 @@ class Profile extends Component {
                     </Button>
                   </label>
                   <Button
-                      variant="contained"
-                      type="submit"
-                      className={this.props.classes.button}
-                    >
-                      Upload
-                    </Button>
+                    variant="contained"
+                    type="submit"
+                    className={this.props.classes.button}
+                  >
+                    Upload
+                  </Button>
                 </form>
               </div>
               <div className={this.props.classes.textInfo}>

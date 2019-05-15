@@ -53,6 +53,14 @@ class WeedsGrid extends Component {
           strains: user.strains.slice(0, 8)
         });
       });
+    } else if (
+      this.props.filteredStrains &&
+      this.props.filteredStrains.length > 0
+    ) {
+      this.setState({
+        ...this.state,
+        strains: this.props.filteredStrains.slice(0, 8)
+      });
     } else {
       return this.strainservice.allStrains(this.state.offset).then(payload => {
         this.setState({
@@ -63,14 +71,30 @@ class WeedsGrid extends Component {
     }
   }
 
+  componentWillReceiveProps({ filteredStrains }) {
+    this.setState(
+      { ...this.state, strains: filteredStrains.slice(0, 8) },
+      this.setNumberOfStrains
+    );
+  }
+
   handleClick(offset) {
     if (this.props.user) {
       return this.service.getUserById(this.props.user._id).then(user => {
         this.setState({
           ...this.state,
-          strains: user.strains.slice(offset, offset+8),
+          strains: user.strains.slice(offset, offset + 8),
           offset
         });
+      });
+    } else if (
+      this.props.filteredStrains &&
+      this.props.filteredStrains.length > 0
+    ) {
+      this.setState({
+        ...this.state,
+        strains: this.props.filteredStrains.slice(offset, offset + 8),
+        offset
       });
     } else {
       return this.strainservice.allStrains(offset).then(payload => {
@@ -84,13 +108,20 @@ class WeedsGrid extends Component {
   }
 
   setNumberOfStrains = () => {
-    debugger;
     if (this.props.user) {
       return this.service.getUserById(this.props.user._id).then(user => {
         this.setState({
           ...this.state,
           allStrainsNumber: user.strains.length
         });
+      });
+    } else if (
+      this.props.filteredStrains &&
+      this.props.filteredStrains.length > 0
+    ) {
+      this.setState({
+        ...this.state,
+        allStrainsNumber: this.props.filteredStrains.length
       });
     } else {
       return this.strainservice.allStrainsNumber().then(payload => {

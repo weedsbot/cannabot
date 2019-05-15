@@ -123,7 +123,6 @@ class Signup extends Component {
           <form
             className={this.props.classes.form}
             onSubmit={this.handleFormSubmit}
-            noValidate
             autoComplete="off"
           >
             <FormControl margin="normal" required fullWidth>

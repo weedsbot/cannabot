@@ -30,10 +30,11 @@ router.get("/strain/:id", (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.get("/effects_filter", (req, res, next) => {
+router.get("/filter/", (req, res, next) => {
   Strain.find({
     $and: [
-      { negative_effects: { $regex: req.query.negative, $options: "i" } },
+      { name: { $regex: req.query.name, $options: "i" } },
+      { flavors: { $regex: req.query.flavour, $options: "i" } },
       { positive_effects: { $regex: req.query.positive, $options: "i" } },
       { medical_effects: { $regex: req.query.medical, $options: "i" } },
       { race: { $regex: req.query.race, $options: "i" } }
@@ -59,7 +60,7 @@ router.get('/findAllEffects/:effectType',(req,res,next) => {
       let effects = [];
       allStrains = allStrains.map(strain => strain[req.params.effectType]);
       allStrains.forEach(el => (effects = effects.concat(el)));
-      res.json(effects = [...new Set(effects)]);
+      res.json(effects = [...new Set(effects)].sort());
     })
     .catch(err => res.json(err));
 });
@@ -68,7 +69,18 @@ router.get('/findAllRaces',(req,res,next) => {
   Strain.find()
     .then(allStrains => {
       allStrains = allStrains.map(strain => strain.race);
-      res.json(allStrains = [...new Set(allStrains)]);
+      res.json(allStrains = [...new Set(allStrains)].sort());
+    })
+    .catch(err => res.json(err));
+});
+
+router.get('/findAllFlavors',(req,res,next) => {
+  Strain.find()
+    .then(allStrains => {
+      let flavors= [];
+      allStrains = allStrains.map(strain => strain['flavors']);
+      allStrains.forEach(el => (flavors = flavors.concat(el)));
+      res.json(flavors = [...new Set(flavors)].sort());
     })
     .catch(err => res.json(err));
 });

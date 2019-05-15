@@ -59,6 +59,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
+    display:'flex',
+    justifyContent: 'space-around',
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit
   },
@@ -135,7 +137,7 @@ class StrainDetails extends React.Component {
     this.setState({ [name]: files });
   };
 
-  setImage = () => {  
+  setImage = () => {
     if (this.state.image_url !== "") return this.state.image_url;
     else if (this.state.strainDetails.image_url === "") return Image;
     else return this.state.strainDetails.image_url;
@@ -171,9 +173,12 @@ class StrainDetails extends React.Component {
               className={this.props.classes.media}
               src={this.setImage()}
               title={this.state.strainDetails.name}
-              alt='#'
+              alt="#"
             />
-            <form onSubmit={e => this.handleImageSubmit(e)}>
+            <form
+              onSubmit={e => this.handleImageSubmit(e)}
+              className={this.props.classes.form}
+            >
               <input
                 accept="image/*"
                 className={this.props.classes.input}
