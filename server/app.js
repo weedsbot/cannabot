@@ -7,13 +7,15 @@ const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
-const path         = require('path');
 
 const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash      = require("connect-flash");
 const cors         = require('cors');
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
+console.log("Connection MONGO ",process.env.MONGO)
 mongoose
   .connect(process.env.MONGO, {useNewUrlParser: true})
   .then(x => {
@@ -35,9 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //CORD setup
-const whitelistEnv = process.env.CORSWHITELIST;
-//const whitelist = whitelistEnv.split(',');
-const whitelist = ['http://localhost:3000']
+const whitelist = ['http://localhost:3000','https://cannabotapp.herokuapp.com/']
 
 const corsOptions = {
     origin: function(origin, callback) {
@@ -66,7 +66,7 @@ app.use(require('node-sass-middleware')({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public',  'favicon.ico')));
 
 
 hbs.registerHelper('ifUndefined', (value, options) => {

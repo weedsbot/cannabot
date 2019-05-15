@@ -9,11 +9,11 @@ const googleAuth = require('google-oauth-jwt');
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-let googleProjectID = process.env.REACT_APP_GOOGLE_PROJECT_ID;
-let dialogFlowSessionID = process.env.REACT_APP_DIALOGFLOW_SESSION_ID;
-let dialogFlowSessionLanguageCode = process.env.REACT_APP_DIALOGFLOW_LANGUGAGE_CODE;
-let googleClientEmail = process.env.REACT_APP_GOOGLE_CLIENT_EMAIL;
-let googlePrivateKey = process.env.REACT_APP_GOOGLE_PRIVATE_KEY;
+let googleProjectID = process.env.GOOGLE_PROJECT_ID;
+let dialogFlowSessionID = process.env.DIALOGFLOW_SESSION_ID;
+let dialogFlowSessionLanguageCode = process.env.DIALOGFLOW_LANGUGAGE_CODE;
+let googleClientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+let googlePrivateKey = process.env.GOOGLE_PRIVATE_KEY;
 
 const projectId = googleProjectID;
 const sessionId = dialogFlowSessionID;

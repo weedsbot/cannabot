@@ -11,12 +11,16 @@ import QuickReplies from './QuickReplies';
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-let googleProjectID = process.env.REACT_APP_GOOGLE_PROJECT_ID;
-let dialogFlowSessionID = process.env.REACT_APP_DIALOGFLOW_SESSION_ID;
-let dialogFlowSessionLanguageCode = process.env.REACT_APP_DIALOGFLOW_LANGUGAGE_CODE;
-let googleClientEmail = process.env.REACT_APP_GOOGLE_CLIENT_EMAIL;
-let googlePrivateKey = process.env.REACT_APP_GOOGLE_PRIVATE_KEY;
-let mongoURI = process.env.REACT_APP_MONGO;
+
+let googleProjectID = process.env.GOOGLE_PROJECT_ID;
+let dialogFlowSessionID = process.env.DIALOGFLOW_SESSION_ID;
+
+/*
+let dialogFlowSessionLanguageCode = process.env.DIALOGFLOW_LANGUAGE_CODE;
+let googleClientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+let googlePrivateKey = process.env.GOOGLE_PRIVATE_KEY;
+let mongoURI = process.env.MONGO;
+*/
 
 const cookies = new Cookies();
 
@@ -104,8 +108,8 @@ class Chatbot extends Component {
 
 
             const res = await axios.post(
-                'https://dialogflow.googleapis.com/v2/projects/' + process.env.REACT_APP_GOOGLE_PROJECT_ID +
-                '/agent/sessions/' + process.env.REACT_APP_DIALOGFLOW_SESSION_ID + cookies.get('userID') + ':detectIntent',
+                'https://dialogflow.googleapis.com/v2/projects/' + googleProjectID +
+                '/agent/sessions/' + dialogFlowSessionID + cookies.get('userID') + ':detectIntent',
                 request,
                 config
             );

@@ -2,7 +2,7 @@
 import axios from 'axios';
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-let baseURL = process.env.REACT_APP_URL ;
+let baseURL = process.env.URL ;
 
 class Strains {
   constructor() {

@@ -9,7 +9,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const mongoose = require("mongoose");
 const request = require("request-promise");
 const Strain = require("../models/Strain");
-let mongodb = process.env.REACT_APP_MONGO
+let mongodb = process.env.MONGO
 console.log(__dirname)
 console.log(mongodb)
 mongoose
