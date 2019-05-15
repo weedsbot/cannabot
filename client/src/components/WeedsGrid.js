@@ -72,10 +72,12 @@ class WeedsGrid extends Component {
   }
 
   componentWillReceiveProps({ filteredStrains }) {
-    this.setState(
-      { ...this.state, strains: filteredStrains.slice(0, 8) },
-      this.setNumberOfStrains
-    );
+    if (this.props.filteredStrains && this.props.filteredStrains.length > 0) {
+      this.setState(
+        { ...this.state, strains: filteredStrains.slice(0, 8) },
+        this.setNumberOfStrains
+      );
+    }
   }
 
   handleClick(offset) {
