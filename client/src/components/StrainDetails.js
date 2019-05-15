@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import Strains from "../services/Strains";
 import Typography from "@material-ui/core/Typography";
@@ -11,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import Button from "@material-ui/core/Button";
 
 import Image from "../img/lemonpot_edit.jpg";
 
@@ -58,6 +59,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
+    display:'flex',
+    justifyContent: 'space-around',
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit
   },
@@ -94,11 +97,11 @@ const styles = theme => ({
 class StrainDetails extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.match.params.idStrain);
     this.service = new AuthService();
     this.strainservice = new Strains();
     this.state = {
       idStrain: this.props.match.params.idStrain,
+      image_url: "",
       strainDetails: {}
     };
     this.getStrainDetails(this.state.idStrain);
@@ -113,16 +116,95 @@ class StrainDetails extends React.Component {
     });
   };
 
+  handleImageSubmit = event => {
+    event.preventDefault();
+
+    this.strainservice
+      .uploadPicture(this.state)
+      .then(response => {
+        this.setState({
+          ...this.state,
+          image_url: response.strainUpdated.image_url
+        });
+      })
+      .catch(() => {
+        return <Redirect to="/" />;
+      });
+  };
+
+  handleChangeFile = event => {
+    const { name, files } = event.target;
+    this.setState({ [name]: files });
+  };
+
+  setImage = () => {
+    if (this.state.image_url !== "") return this.state.image_url;
+    else if (this.state.strainDetails.image_url === "") return Image;
+    else return this.state.strainDetails.image_url;
+  };
+
+  handlerFavoriteSubmit = event => {
+    event.preventDefault();
+    const username = this.state.loggedInUser.username;
+    const iduser = this.state.loggedInUser._id;
+    const idStrain = this.state.idStrain;
+    const inFavorites = this.state.inFavorites;
+    const action = !this.state.loggedInUser.strains.includes(
+      this.state.idStrain
+    );
+    //console.log(this.state.loggedInUser.strains);
+    this.service
+      .changeStrainFavoriteList(idStrain, iduser, action)
+      .then(userUpdated => {
+        this.setState({
+          ...this.state,
+          loggedInUser: userUpdated
+        });
+      });
+  };
+
   render() {
     return (
       <main className={this.props.classes.main}>
         <CssBaseline />
         <Paper className={this.props.classes.paper}>
-          <img
-            className={this.props.classes.media}
-            src={Image}
-            title={this.state.strainDetails.name}
-          />
+          <div>
+            <img
+              className={this.props.classes.media}
+              src={this.setImage()}
+              title={this.state.strainDetails.name}
+              alt="#"
+            />
+            <form
+              onSubmit={e => this.handleImageSubmit(e)}
+              className={this.props.classes.form}
+            >
+              <input
+                accept="image/*"
+                className={this.props.classes.input}
+                id="contained-button-file"
+                type="file"
+                name="image"
+                onChange={e => this.handleChangeFile(e)}
+              />
+              <label htmlFor="contained-button-file">
+                <Button
+                  variant="contained"
+                  component="span"
+                  className={this.props.classes.button}
+                >
+                  Select Picture
+                </Button>
+              </label>
+              <Button
+                variant="contained"
+                type="submit"
+                className={this.props.classes.button}
+              >
+                Upload
+              </Button>
+            </form>
+          </div>
           <div className={this.props.classes.textInfo}>
             <div>
               <Typography component="h2" variant="h3">
@@ -191,9 +273,26 @@ class StrainDetails extends React.Component {
                   : null}
               </List>
               <div className={this.props.classes.icon}>
-                <IconButton aria-label="Add to favorites">
-                  <FavoriteIcon color="error" />
-                </IconButton>
+                {this.state.loggedInUser &&
+                this.state.loggedInUser.strains !== undefined ? (
+                  <IconButton
+                    className={this.props.classes.buttonsMargin}
+                    aria-label="Add to favorites"
+                  >
+                    <FavoriteIcon
+                      onClick={e => this.handlerFavoriteSubmit(e)}
+                      color={
+                        this.state.loggedInUser.strains.includes(
+                          this.state.idStrain
+                        )
+                          ? "error"
+                          : "inherit"
+                      }
+                    />
+                  </IconButton>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>

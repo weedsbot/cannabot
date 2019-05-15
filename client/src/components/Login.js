@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import AuthService from "../services/AuthService";
-import { Redirect } from "react-router-dom";
+import { Redirect , NavLink} from "react-router-dom";
 import Signup from "./Signup";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -80,6 +79,11 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  singupText: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingTop: "15px"
   }
 });
 
@@ -110,7 +114,7 @@ class Login extends Component {
       })
       .catch(error => {
         this.setState({
-          error: true
+          error: error
         });
       });
   };
@@ -139,7 +143,6 @@ class Login extends Component {
           <form
             className={this.props.classes.form}
             onSubmit={this.handleFormSubmit}
-            noValidate
             autoComplete="off"
           >
             <FormControl margin="normal" required fullWidth>
@@ -182,13 +185,16 @@ class Login extends Component {
               Log in
             </Button>
           </form>
+          <div className={this.props.classes.singupText}>
+            <Typography variant="p">Don't have an account yet!? </Typography>
+            <NavLink className={this.props.classes.noDecoration} to="/signup">
+              Sign up
+            </NavLink>
+          </div>
           <Typography variant="h5">
-            {this.state.error ? "Error" : ""}
-          </Typography>{" "}
+            {this.state.error ? 'Error' : ""}
+          </Typography>{" "}  
         </Paper>
-        <Typography variant="h5">
-          {this.state.error ? <Redirect to="/signup" /> : ""}
-        </Typography>
       </main>
     );
   }

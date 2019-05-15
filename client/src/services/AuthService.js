@@ -17,11 +17,13 @@ class AuthService {
     .then(response => {
       return response.data;
     })
+    .catch (err => err.data)
   }
 
   login = (username, password) => {
     return this.service.post('/auth/login', {username, password})
     .then(response => response.data)
+    .catch (err => console.log(err.data))
   }
 
   loggedin = () => {
