@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import QuickReply from './QuickReply';
+import Reply from './Reply';
 
 
-class QuickReplies extends Component {
+class Replies extends Component {
     constructor(props) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
@@ -13,7 +13,7 @@ class QuickReplies extends Component {
     }
 
     renderQuickReply(reply, i) {
-        return <QuickReply key={i} click={this._handleClick} reply={reply} />;
+        return <Reply key={i} click={this._handleClick} reply={reply} />;
     }
 
     renderQuickReplies(quickReplies) {
@@ -49,4 +49,4 @@ class QuickReplies extends Component {
     }
 }
 
-export default QuickReplies;
+export default Replies;

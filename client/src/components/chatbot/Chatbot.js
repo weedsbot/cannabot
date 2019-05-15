@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import axios from "axios/index";
+import DialogFlow from '../../services/DialogFlow';
 import { withRouter } from 'react-router-dom';
 
 import Cookies from 'universal-cookie';
 import { v4 as uuid } from 'uuid';
 
 import Message from './Message';
-import Card from './Card';
-import QuickReplies from './QuickReplies';
+import MessageCard from './MessageCard';
+import Replies from './Replies';
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
@@ -36,9 +37,10 @@ class Chatbot extends Component {
 
         this.hide = this.hide.bind(this);
         this.show = this.show.bind(this);
+        this.ChatbotComms = new DialogFlow({googleProjectID, dialogFlowSessionID});
         this.state = {
             messages: [],
-            showBot: true,
+            showBot: false,
             shopWelcomeSent: false,
             clientToken: false,
             regenerateToken: 0
@@ -95,7 +97,7 @@ class Chatbot extends Component {
         try {
 
             if (this.state.clientToken === false) {
-                const res = await axios.get('/api/get_client_token');
+                const res = await this.ChatbotComms.getClientToken();
                 this.setState({clientToken: res.data.token});
             }
 
@@ -107,12 +109,7 @@ class Chatbot extends Component {
             };
 
 
-            const res = await axios.post(
-                'https://dialogflow.googleapis.com/v2/projects/' + googleProjectID +
-                '/agent/sessions/' + dialogFlowSessionID + cookies.get('userID') + ':detectIntent',
-                request,
-                config
-            );
+            const res = await this.ChatbotComms.sendRequest(request, config, cookies);
 
             let  says = {};
 
@@ -201,9 +198,6 @@ class Chatbot extends Component {
             case 'recommended_yes':
                 this.df_event_query('SHOW_RECOMMENDATIONS');
                 break;
-            case 'training_masterclass':
-                this.df_event_query('MASTERCLASS');
-                break;
             default:
                 this.df_text_query(text);
                 break;
@@ -211,7 +205,7 @@ class Chatbot extends Component {
     }
 
     renderCards(cards) {
-        return cards.map((card, i) => <Card key={i} payload={card}/>);
+        return cards.map((card, i) => <MessageCard key={i} payload={card}/>);
     }
 
     renderOneMessage(message, i) {
@@ -240,7 +234,7 @@ class Chatbot extends Component {
             message.msg.payload &&
             message.msg.payload.quick_replies
         ) {
-            return <QuickReplies
+            return <Replies
                 text={message.msg.payload.text ? message.msg.payload.text : null}
                 key={i}
                 replyClick={this._handleQuickReplyPayload}

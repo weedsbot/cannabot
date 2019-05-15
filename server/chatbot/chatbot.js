@@ -1,7 +1,6 @@
 'use strict';
 const dialogflow = require('dialogflow');
 const structjson = require('./structjson.js');
-const config = require('../config/keys');
 const mongoose = require('mongoose');
 
 const googleAuth = require('google-oauth-jwt');
@@ -21,15 +20,13 @@ const languageCode = dialogFlowSessionLanguageCode;
 
 const credentials = {
     client_email: googleClientEmail,
-    private_key:
-    googlePrivateKey,
+    private_key: googlePrivateKey
 };
 
 const sessionClient = new dialogflow.SessionsClient({projectId, credentials});
 
 
 
-const Registration = mongoose.model('registration');
 
 
 module.exports = {
@@ -38,8 +35,8 @@ module.exports = {
         return new Promise((resolve) => {
             googleAuth.authenticate(
                 {
-                    email: config.googleClientEmail,
-                    key: config.googlePrivateKey,
+                    email: googleClientEmail,
+                    key: googlePrivateKey,
                     scopes: ['https://www.googleapis.com/auth/cloud-platform'],
                 },
                 (err, token) => {
@@ -103,9 +100,9 @@ module.exports = {
         let queryResult = responses[0].queryResult;
 
         switch (queryResult.action) {
-            case 'recommendcourses-yes':
+            case 'recommendstrains-yes':
                 if (queryResult.allRequiredParamsPresent) {
-                    self.saveRegistration(queryResult.parameters.fields);
+
                 }
                 break;
         }
@@ -113,19 +110,5 @@ module.exports = {
         return responses;
     },
 
-    saveRegistration: async function(fields){
-        const registration = new Registration({
-            name: fields.name.stringValue,
-            address: fields.address.stringValue,
-            phone: fields.phone.stringValue,
-            email: fields.email.stringValue,
-            dateSent: Date.now()
-        });
-        try{
-            let reg = await registration.save();
-            console.log(reg);
-        } catch (err){
-            console.log(err);
-        }
-    }
+
 }

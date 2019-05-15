@@ -7,6 +7,7 @@ import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import Homepage from './components/Homepage';
 import StrainDetails from './components/StrainDetails';
+import Chatbot from './components/chatbot/Chatbot';
 import Logout from './components/Logout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import WeedsGrid from './components/WeedsGrid';

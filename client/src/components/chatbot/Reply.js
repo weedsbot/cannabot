@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const QuickReply = (props) => {
+const Reply = (props) => {
     if (props.reply.payload) {
         return (
             <a style={{ margin: 3}} href="/" className="btn-floating btn-large waves-effect waves-light red"
@@ -26,4 +26,4 @@ const QuickReply = (props) => {
 
 };
 
-export default QuickReply;
+export default Reply;

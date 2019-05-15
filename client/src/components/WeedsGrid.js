@@ -58,7 +58,7 @@ class WeedsGrid extends Component {
     return (
       <React.Fragment>
         <div className={this.props.classes.container}>
-          {this.state.strains.slice(0, 10).map((strain, idx) => {
+          {this.state.strains.map((strain, idx) => {
             return (
               <div key={strain._id}>
                 <StrainLittle {...strain} />

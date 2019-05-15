@@ -19,7 +19,8 @@ console.log("Connection MONGO ",process.env.MONGO)
 mongoose
   .connect(process.env.MONGO, {useNewUrlParser: true})
   .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
+    console.log(`${x}`);
   })
   .catch(err => {
     console.error('Error connecting to mongo', err)
@@ -36,7 +37,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//CORD setup
+//CORS setup
 const whitelist = ['http://localhost:3000','https://cannabotapp.herokuapp.com/']
 
 const corsOptions = {
@@ -106,7 +107,13 @@ app.use('/api/user', userRoutes);
 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
-      
+
+
+/*
+const chatbotRoutes = require('./routes/dialogFlowRoutes');
+app.use('/api/chatbot', chatbotRoutes);
+*/
+
 app.use((req, res) => {
 	res.sendFile(__dirname + "/public/index.html");
 });

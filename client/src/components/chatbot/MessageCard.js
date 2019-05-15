@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Card = (props) => {
+const MessageCard = (props) => {
     return (
         <div  style={{ height: 270, paddingRight:30, float: 'left'}}>
             <div className="card">
@@ -20,4 +20,4 @@ const Card = (props) => {
     );
 };
 
-export default Card;
+export default MessageCard;
