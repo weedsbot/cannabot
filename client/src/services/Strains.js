@@ -49,6 +49,8 @@ class Strains {
       )
   }
 
+  
+
 }
 
 export default Strains;

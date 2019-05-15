@@ -53,25 +53,25 @@ router.get("/name_filter/:name", (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-findAllEffects = effectType => {
+router.get('/findAllEffects/:effectType',(req,res,next) => {
   Strain.find()
     .then(allStrains => {
       let effects = [];
-      allStrains = allStrains.map(strain => strain[effectType]);
+      allStrains = allStrains.map(strain => strain[req.params.effectType]);
       allStrains.forEach(el => (effects = effects.concat(el)));
-      return (effects = [...new Set(effects)]);
+      res.json(effects = [...new Set(effects)]);
     })
     .catch(err => res.json(err));
-};
+});
 
-findAllRaces = () => {
+router.get('/findAllRaces',(req,res,next) => {
   Strain.find()
     .then(allStrains => {
       allStrains = allStrains.map(strain => strain.race);
-      return (allStrains = [...new Set(allStrains)]);
+      res.json(allStrains = [...new Set(allStrains)]);
     })
     .catch(err => res.json(err));
-};
+});
 
 router.post("/uploadpic", uploadCloud.single("image"), (req, res, next) => {
   console.log(req.body.strainId)
