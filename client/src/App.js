@@ -1,16 +1,16 @@
-import React from 'react';
-import './App.css';
-import AuthService from './services/AuthService';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import Profile from './components/Profile';
-import Navbar from './components/Navbar';
-import Homepage from './components/Homepage';
-import StrainDetails from './components/StrainDetails';
-import Chatbot from './components/chatbot/Chatbot';
+import React from "react";
+import "./App.css";
+import AuthService from "./services/AuthService";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+import Navbar from "./components/Navbar";
+import Homepage from "./components/Homepage";
+import StrainDetails from "./components/StrainDetails";
+import Chatbot from "./components/chatbot/Chatbot";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import WeedsGrid from './components/WeedsGrid';
-import Search from './components/Search';
+import WeedsGrid from "./components/WeedsGrid";
+import Search from "./components/Search";
 
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 
@@ -24,12 +24,6 @@ class App extends React.Component {
   getUser = userObj => {
     this.setState({
       loggedInUser: userObj
-    });
-  };
-
-  logout = () => {
-    this.service.logout().then(() => {
-      this.setState({ loggedInUser: null });
     });
   };
 
@@ -61,48 +55,73 @@ class App extends React.Component {
 
   render() {
     this.fetchUser();
+    console.log(this.state.loggedInUser);
     return (
       <BrowserRouter>
         <CssBaseline>
           <div className="App">
             <Navbar
-              loggedInUser={this.state.loggedInUser}
+              user={this.state.loggedInUser}
               logoutHandler={() => this.logoutHandler()}
             />
             <div>
               <Switch>
-                <Route 
-                  exact path='/profile' 
-                  render={() => <Profile getUser={this.getUser} logoutHandler={()=>this.logoutHandler()}/>} 
-                />
                 <Route
                   exact
-                  path="/signup"
-                  render={() => <Signup getUser={this.getUser} />}
+                  path="/profile"
+                  render={props => (
+                    <Profile {...props} user={this.state.loggedInUser} />
+                  )}
                 />
+                <Route exact path="/signup" render={() => <Signup />} />
                 <Route
                   exact
                   path="/login"
                   render={() => <Login getUser={this.getUser} />}
                 />
-                <Route 
-                  exact path='/straindetail/:idStrain' 
-                  render={(props) => <StrainDetails {...props} getUser={this.getUser} />} 
+                <Route
+                  exact
+                  path="/straindetail/:idStrain"
+                  render={props => (
+                    <StrainDetails
+                      {...props}
+                      user={this.state.loggedInUser}
+                      getUser={this.getUser}
+                    />
+                  )}
                 />
-                 <Route                 
+                <Route
                   exact
                   path="/"
-                  render={() => <Homepage />}
+                  render={props => (
+                    <Homepage
+                      {...props}
+                      user={this.state.loggedInUser}
+                      getUser={this.getUser}
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/userweeds"
-                  render={() => <WeedsGrid user={this.state.loggedInUser} />}
+                  render={props => (
+                    <WeedsGrid
+                      {...props}
+                      user={this.state.loggedInUser}
+                      strains={this.state.loggedInUser.strains}
+                      getUser={this.props.getUser}
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/searchstrains"
-                  render={() => <Search />}
+                  render={props => (
+                    <Search
+                      user={this.state.loggedInUser}
+                      getUser={this.getUser}
+                    />
+                  )}
                 />
               </Switch>
             </div>

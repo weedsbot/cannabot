@@ -36,106 +36,50 @@ class WeedsGrid extends Component {
     this.strainservice = new Strains();
     this.service = new AuthService();
     this.state = {
+      allStrains: [],
       strains: [],
       offset: 0,
       allStrainsNumber: 0
     };
-
-    this.componentDidMount();
-    this.setNumberOfStrains();
   }
 
-  componentDidMount() {
-    if (this.props.user) {
-      return this.service.getUserById(this.props.user._id).then(user => {
-        this.setState({
-          ...this.state,
-          strains: user.strains.slice(0, 8)
-        });
-      });
-    } else if (
-      this.props.filteredStrains &&
-      this.props.filteredStrains.length > 0
-    ) {
+  // componentDidMount() {
+  //   this.setState({
+  //     ...this.state,
+  //     allStrains: this.props.user.strains,
+  //     strains: this.props.user.strains.slice(
+  //       this.state.offset,
+  //       this.state.offset + 10
+  //     ),
+  //     allStrainsNumber: this.props.user.strains.length
+  //   });
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.strains !== nextProps.strains) {
+      console.log(nextProps.strains);
       this.setState({
         ...this.state,
-        strains: this.props.filteredStrains.slice(0, 8)
-      });
-    } else {
-      return this.strainservice.allStrains(this.state.offset).then(payload => {
-        this.setState({
-          ...this.state,
-          strains: payload
-        });
+        allStrains: nextProps.strains,
+        strains: nextProps.strains.slice(
+          this.state.offset,
+          this.state.offset + 10
+        ),
+        allStrainsNumber: nextProps.strains.length
       });
     }
   }
-
-  componentWillReceiveProps({ filteredStrains }) {
-    if (this.props.filteredStrains && this.props.filteredStrains.length > 0) {
-      this.setState(
-        { ...this.state, strains: filteredStrains.slice(0, 8) },
-        this.setNumberOfStrains
-      );
-    }
-  }
-
   handleClick(offset) {
-    if (this.props.user) {
-      return this.service.getUserById(this.props.user._id).then(user => {
-        this.setState({
-          ...this.state,
-          strains: user.strains.slice(offset, offset + 8),
-          offset
-        });
-      });
-    } else if (
-      this.props.filteredStrains &&
-      this.props.filteredStrains.length > 0
-    ) {
-      this.setState({
-        ...this.state,
-        strains: this.props.filteredStrains.slice(offset, offset + 8),
-        offset
-      });
-    } else {
-      return this.strainservice.allStrains(offset).then(payload => {
-        this.setState({
-          ...this.state,
-          strains: payload,
-          offset
-        });
-      });
-    }
+    this.setState({
+      ...this.state,
+      strains: this.state.allStrains.slice(offset, offset + 10),
+      offset
+    });
   }
-
-  setNumberOfStrains = () => {
-    if (this.props.user) {
-      return this.service.getUserById(this.props.user._id).then(user => {
-        this.setState({
-          ...this.state,
-          allStrainsNumber: user.strains.length
-        });
-      });
-    } else if (
-      this.props.filteredStrains &&
-      this.props.filteredStrains.length > 0
-    ) {
-      this.setState({
-        ...this.state,
-        allStrainsNumber: this.props.filteredStrains.length
-      });
-    } else {
-      return this.strainservice.allStrainsNumber().then(payload => {
-        this.setState({
-          ...this.state,
-          allStrainsNumber: payload
-        });
-      });
-    }
-  };
 
   render() {
+    console.log(this.props.user);
+    console.log(this.state);
     return (
       <div className={this.props.classes.main}>
         <MuiThemeProvider theme={theme}>
@@ -143,7 +87,7 @@ class WeedsGrid extends Component {
           <Pagination
             size="large"
             className={this.props.classes.paginator}
-            limit={8}
+            limit={10}
             offset={this.state.offset}
             total={this.state.allStrainsNumber}
             onClick={(e, offset) => this.handleClick(offset)}
@@ -151,10 +95,14 @@ class WeedsGrid extends Component {
         </MuiThemeProvider>
 
         <div className={this.props.classes.container}>
-          {this.state.strains.map((strain, idx) => {
+          {this.state.strains.map(strain => {
             return (
               <div key={strain._id}>
-                <StrainLittle {...strain} />
+                <StrainLittle
+                  {...strain}
+                  user={this.props.user}
+                  getUser={this.props.getUser}
+                />
               </div>
             );
           })}

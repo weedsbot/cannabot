@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import AuthService from "../services/AuthService";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -30,52 +29,24 @@ const styles = {
 };
 
 class Navbar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.service = new AuthService();
-  }
-
-  getUser = userObj => {
-    this.setState({
-      loggedInUser: userObj
-    });
-  };
-
-  fetchUser() {
-    if (this.state.loggedInUser === null) {
-      return this.service
-        .loggedin()
-        .then(response => {
-          this.setState({
-            loggedInUser: response
-          });
-        })
-        .catch(err => {
-          this.setState({
-            loggedInUser: null
-          });
-        });
-    }
-  }
 
   handlerLogout = e => {
     e.preventDefault();
     this.props.logoutHandler();
-    this.props.history.push("/");
   };
 
   render() {
-    if (this.props.loggedInUser) {
+    if (this.props.user) {
       return (
         <div className={this.props.classes.root}>
           <AppBar positionSticky className={this.props.classes.navBg}>
             <Toolbar className={this.props.classes.root}>
-              <IconButton
+              {/* <IconButton
                 className={this.props.classes.menuButton}
                 aria-label="Menu"
               >
                 <MenuIcon />
-              </IconButton>
+              </IconButton> */}
               <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink className={this.props.classes.noDecoration} to="/">
                   Home
@@ -106,7 +77,7 @@ class Navbar extends React.Component {
                 </NavLink>
               </Typography>
 
-              <Button color="black">
+              <Button color="default">
                 {" "}
                 <a
                   href="#"
@@ -123,7 +94,7 @@ class Navbar extends React.Component {
     } else {
       return (
         <div className={this.props.classes.root}>
-          <AppBar positionSticky className={this.props.classes.navBg}>
+          <AppBar className={this.props.classes.navBg}>
             <Toolbar className={this.props.classes.root}>
               <IconButton
                 className={this.props.classes.menuButton}

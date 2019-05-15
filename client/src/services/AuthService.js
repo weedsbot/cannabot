@@ -2,7 +2,7 @@
 import axios from 'axios';
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-let baseURL = process.env.URL;
+let baseURL = process.env.REACT_APP_URL;
 
 class AuthService {
   constructor() {
@@ -12,12 +12,13 @@ class AuthService {
     });
   }
 
-  signup = (username, password, campus, course) => {
-    return this.service.post('/auth/signup', {username, password, campus, course})
+  signup = (username, password) => {
+    return this.service.post('/auth/signup', {username, password})
     .then(response => {
+      console.log(response)
       return response.data;
     })
-    .catch (err => err.data)
+    .catch (err => console.log(err))
   }
 
   login = (username, password) => {
@@ -55,6 +56,7 @@ class AuthService {
 
 
   changeStrainFavoriteList = (idStrain,idUser,action) => {
+    console.log('entra al service')
     let result = null;
     if(action){
       //console.log("Client strainFavAdd ", idUser, idStrain);

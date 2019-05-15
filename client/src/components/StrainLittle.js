@@ -53,81 +53,75 @@ class StrainLittle extends React.Component {
     this.state = {
       idStrain: props._id,
       description: props.description,
-      flavors: props.flavors,
-      medical_effects: props.medical_effects,
+      // flavors: props.flavors,
+      // medical_effects: props.medical_effects,
       name: props.name,
-      negative_effects: props.negative_effects,
-      positive_effects: props.positive_effects,
+      // negative_effects: props.negative_effects,
+      // positive_effects: props.positive_effects,
       race: props.race,
-      image_url: props.image_url,
-      loggedInUser: null,
-      inFavorites: true
+      image_url: props.image_url
+      // loggedInUser: null,
+      // inFavorites: true
     };
-    this.state.loggedInUser = this.fetchUser();
-    this.getUser();
+    // this.state.loggedInUser = this.fetchUser();
+    // this.getUser();
     //this.state.inFavorites = this.checkStrainFavorite();
   }
 
-  getUser = userObj => {
-    this.setState({
-      ...this.state,
-      loggedInUser: userObj
-    });
-  };
+  // getUser = userObj => {
+  //   this.setState({
+  //     ...this.state,
+  //     loggedInUser: userObj
+  //   });
+  // };
 
-  fetchUser() {
-    if (this.state.loggedInUser === null) {
-      return this.service
-        .loggedin()
-        .then(response => {
-          //console.log(response);
-          this.setState({
-            loggedInUser: response
-          });
-        })
-        .catch(err => {
-          this.setState({
-            loggedInUser: null
-          });
-        });
-    }
-  }
+  // fetchUser() {
+  //   if (this.state.loggedInUser === null) {
+  //     return this.service
+  //       .loggedin()
+  //       .then(response => {
+  //         //console.log(response);
+  //         this.setState({
+  //           loggedInUser: response
+  //         });
+  //       })
+  //       .catch(err => {
+  //         this.setState({
+  //           loggedInUser: null
+  //         });
+  //       });
+  //   }
+  // }
 
-  checkStrainFavorite() {
-    return this.state.loggedInUser.strains.includes(this.state.idStrain);
-  }
+  // checkStrainFavorite() {
+  //   return this.state.loggedInUser.strains.includes(this.state.idStrain);
+  // }
 
   handlerFavoriteSubmit = event => {
     event.preventDefault();
-    const username = this.state.loggedInUser.username;
-    const iduser = this.state.loggedInUser._id;
+    // const username = this.state.loggedInUser.username;
+    const iduser = this.props.user._id;
     const idStrain = this.state.idStrain;
-    const inFavorites = this.state.inFavorites;
-    const action = !this.state.loggedInUser.strains.includes(
-      this.state.idStrain
-    );
+    // const inFavorites = this.state.inFavorites;
+    const action = !this.props.user.strains.includes(this.state.idStrain);
     //console.log(this.state.loggedInUser.strains);
     this.service
       .changeStrainFavoriteList(idStrain, iduser, action)
       .then(userUpdated => {
-        this.setState({
-          ...this.state,
-          loggedInUser: userUpdated
-        });
+        this.props.getUser(userUpdated);
       });
   };
 
   render() {
+    // let idsArray = this.props.user
+    //   ? this.props.user.strains.map(strain => strain._id)
+    //   : [];
     return (
       <Card className={this.props.classes.card}>
         <CardActionArea>
           <CardMedia
             className={this.props.classes.media}
-            image={
-              this.state.image_url === ""
-                ? Image
-                : this.state.image_url
-            }
+            image={this.state.image_url === "" ? Image : this.state.image_url}
             title={this.state.name}
           />
           <CardContent className={this.props.classes.cardContentHeigth}>
@@ -141,7 +135,7 @@ class StrainLittle extends React.Component {
             >
               {this.state.race}
             </Typography>
-            <Typography component="p" noWrap="true">
+            <Typography component="p" noWrap={true}>
               {this.state.description}
             </Typography>
           </CardContent>
@@ -160,18 +154,15 @@ class StrainLittle extends React.Component {
               More details
             </Link>
           </Button>
-          {this.state.loggedInUser &&
-          this.state.loggedInUser.strains !== undefined ? (
+          {this.props.user && this.props.user.strains !== undefined ? (
             <IconButton
+              onClick={e => this.handlerFavoriteSubmit(e)}
               className={this.props.classes.buttonsMargin}
               aria-label="Add to favorites"
             >
               <FavoriteIcon
-                onClick={e => this.handlerFavoriteSubmit(e)}
                 color={
-                  this.state.loggedInUser.strains.includes(this.state.idStrain)
-                    ? "error"
-                    : "inherit"
+                  this.props.user.strains.includes(this.state.idStrain) ? "error" : "inherit"
                 }
               />
             </IconButton>

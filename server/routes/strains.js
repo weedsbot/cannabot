@@ -4,10 +4,10 @@ const Strain = require("../models/Strain");
 
 const uploadCloud = require("../config/cloudinary");
 
-router.get("/allStrains/:offset", (req, res, next) => {
+router.get("/allStrains", (req, res, next) => {
   Strain.find()
-  .skip(+req.params.offset)
-  .limit(8)
+  // .skip(+req.params.offset)
+  // .limit(8)
     .then(allStrains => {
       res.json(allStrains);
     })

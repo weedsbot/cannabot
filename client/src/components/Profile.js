@@ -94,45 +94,45 @@ class Profile extends Component {
     super(props);
     this.service = new AuthService();
     this.state = {
-      loggedInUser: null,
+      // loggedInUser: null,
       username: "",
       image_url: ""
     };
-    this.fetchUser();
+    // this.fetchUser();
   }
 
-  fetchUser() {
-    if (this.state.loggedInUser === null) {
-      return this.service
-        .loggedin()
-        .then(response => {
-          this.setState({
-            loggedInUser: response
-          });
-        })
-        .catch(err => {
-          this.setState({
-            loggedInUser: false
-          });
-        });
-    }
-  }
+  // fetchUser() {
+  //   if (this.state.loggedInUser === null) {
+  //     return this.service
+  //       .loggedin()
+  //       .then(response => {
+  //         this.setState({
+  //           loggedInUser: response
+  //         });
+  //       })
+  //       .catch(err => {
+  //         this.setState({
+  //           loggedInUser: false
+  //         });
+  //       });
+  //   }
+  // }
 
-  handleLogoutSubmit = event => {
-    this.service
-      .logout()
-      .then(() => {
-        this.setState({
-          username: null,
-          password: null,
-          redirectToHome: true,
-          error: false
-        });
-      })
-      .catch(() => {
-        return <Redirect to="/" />;
-      });
-  };
+  // handleLogoutSubmit = event => {
+  //   this.service
+  //     .logout()
+  //     .then(() => {
+  //       this.setState({
+  //         username: null,
+  //         password: null,
+  //         redirectToHome: true,
+  //         error: false
+  //       });
+  //     })
+  //     .catch(() => {
+  //       return <Redirect to="/" />;
+  //     });
+  // };
 
   handleImageSubmit = event => {
     event.preventDefault();
@@ -143,7 +143,7 @@ class Profile extends Component {
         this.setState({
           ...this.state,
           loggedInUser: response.userUpdated,
-          username: this.state.loggedInUser.username,
+          username: this.props.user.username,
           image_url: response.userUpdated.image
         });
       })
@@ -162,38 +162,24 @@ class Profile extends Component {
     this.setState({ [name]: files });
   };
 
-  handlerLogout = e => {
-    e.preventDefault();
-    this.props.logoutHandler();
-    this.setState({
-      username: null,
-      password: null,
-      redirectToHome: true,
-      error: false
-    });
-    //this.props.history.push('/')
-  };
-
   render() {
-    const redirectToHome = this.state.redirectToHome;
-    if (redirectToHome === true) {
-      return <Redirect to="/" />;
-    }
+    if (!this.props.user) return <Redirect to='/'/>
+
     return (
       <main className={this.props.classes.main}>
         <CssBaseline />
         <Paper className={this.props.classes.paper}>
-          {this.state.loggedInUser !== null && (
+          {this.props.user !== null && (
             <React.Fragment>
               <div>
                 <img
                   className={this.props.classes.media}
                   src={
-                    this.state.loggedInUser.image_url === undefined
+                    this.props.user.image_url === ''
                       ? Image
-                      : this.state.loggedInUser.image_url
+                      : this.props.user.image_url
                   }
-                  title={this.state.loggedInUser.username}
+                  title={this.props.user.username}
                   alt="#"
                 />
                 <form
@@ -229,7 +215,7 @@ class Profile extends Component {
               <div className={this.props.classes.textInfo}>
                 <div>
                   <Typography component="h2" variant="h3">
-                    {this.state.loggedInUser.username}
+                    {this.props.user.username}
                   </Typography>
                   <Typography
                     className={this.props.classes.race}

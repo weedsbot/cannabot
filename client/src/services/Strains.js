@@ -13,8 +13,8 @@ class Strains {
     });
   }
 
-  allStrains = offset => {
-    return this.service.get(`/strains/allStrains/${offset}`).then(response => {
+  allStrains = () => {
+    return this.service.get(`/strains/allStrains/`).then(response => {
       return response.data;
     });
   };

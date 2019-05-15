@@ -54,10 +54,16 @@ const styles = theme => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing.unit,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
   },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  formMessage: {
+    color: "red"
   }
 });
 
@@ -68,7 +74,8 @@ class Signup extends Component {
       username: "",
       password: "",
       password2: "",
-      redirectToReferrer: false
+      redirectToReferrer: false,
+      formMessage: ""
     };
     this.service = new AuthService();
   }
@@ -79,25 +86,31 @@ class Signup extends Component {
     const password = this.state.password;
     const password2 = this.state.password2;
 
-    this.service
-      .signup(username, password, password2)
-      .then(response => {
-        this.setState({
-          username: "",
-          password: "",
-          password2: "",
-          redirectToReferrer: true
+    if (password === password2) {
+      this.service
+        .signup(username, password, password2)
+        .then(response => {
+          this.setState({
+            username: "",
+            password: "",
+            password2: "",
+            redirectToReferrer: true
+          });
+          this.props.getUser(response.user);
+        })
+        .catch(error => {
+          this.setState({
+            username: username,
+            password: password,
+            password2: password2,
+            error: error
+          });
         });
-        this.props.getUser(response.user);
-      })
-      .catch(error => {
-        this.setState({
-          username: username,
-          password: password,
-          password2: password2,
-          error: error
-        });
+    } else {
+      this.setState({
+        formMessage: `Passwords doesn't match`
       });
+    }
   };
 
   handleChange = event => {
@@ -141,7 +154,6 @@ class Signup extends Component {
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <TextField
-                id="outlined-password-input"
                 label="Password"
                 className={this.props.classes.textField}
                 type="password"
@@ -156,10 +168,9 @@ class Signup extends Component {
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <TextField
-                id="outlined-password-input"
                 label="Repeat Password"
                 className={this.props.classes.textField}
-                type="password2"
+                type="password"
                 autoComplete="current-password"
                 margin="normal"
                 variant="outlined"
@@ -169,6 +180,16 @@ class Signup extends Component {
                 required
               />
             </FormControl>
+            {this.state.formMessage !== "" ? (
+              <Typography
+                className={this.props.classes.formMessage}
+                component="h6"
+              >
+                {this.state.formMessage}
+              </Typography>
+            ) : (
+              ""
+            )}
             <Button
               type="submit"
               fullWidth
@@ -181,7 +202,7 @@ class Signup extends Component {
             </Button>
           </form>
           <Typography variant="h5">
-            {this.state.error ? 'Error' : ""}
+            {this.state.error ? "Error" : ""}
           </Typography>{" "}
         </Paper>
       </main>

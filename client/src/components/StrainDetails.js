@@ -59,8 +59,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    display:'flex',
-    justifyContent: 'space-around',
+    display: "flex",
+    justifyContent: "space-around",
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit
   },
@@ -88,9 +88,9 @@ const styles = theme => ({
   properties: {
     width: "25%"
   },
-  icon: {
+  title: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "space-between"
   }
 });
 
@@ -145,21 +145,16 @@ class StrainDetails extends React.Component {
 
   handlerFavoriteSubmit = event => {
     event.preventDefault();
-    const username = this.state.loggedInUser.username;
-    const iduser = this.state.loggedInUser._id;
+    const username = this.props.user.username;
+    const iduser = this.props.user._id;
     const idStrain = this.state.idStrain;
     const inFavorites = this.state.inFavorites;
-    const action = !this.state.loggedInUser.strains.includes(
-      this.state.idStrain
-    );
+    const action = !this.props.user.strains.includes(this.state.idStrain);
     //console.log(this.state.loggedInUser.strains);
     this.service
       .changeStrainFavoriteList(idStrain, iduser, action)
       .then(userUpdated => {
-        this.setState({
-          ...this.state,
-          loggedInUser: userUpdated
-        });
+        this.props.getUser(userUpdated);
       });
   };
 
@@ -207,9 +202,30 @@ class StrainDetails extends React.Component {
           </div>
           <div className={this.props.classes.textInfo}>
             <div>
-              <Typography component="h2" variant="h3">
-                {this.state.strainDetails.name}
-              </Typography>
+              <div className={this.props.classes.title}>
+                <Typography component="h2" variant="h3">
+                  {this.state.strainDetails.name}
+                </Typography>
+
+                {this.props.user && this.props.user.strains !== undefined ? (
+                  <IconButton
+                    onClick={e => this.handlerFavoriteSubmit(e)}
+                    className={this.props.classes.buttonsMargin}
+                    aria-label="Add to favorites"
+                    fontSize="large"
+                  >
+                    <FavoriteIcon
+                      color={
+                        this.props.user.strains.includes(this.state.idStrain)
+                          ? "error"
+                          : "inherit"
+                      }
+                    />
+                  </IconButton>
+                ) : (
+                  ""
+                )}
+              </div>
               <Typography
                 className={this.props.classes.race}
                 component="p"
@@ -272,28 +288,6 @@ class StrainDetails extends React.Component {
                     })
                   : null}
               </List>
-              <div className={this.props.classes.icon}>
-                {this.state.loggedInUser &&
-                this.state.loggedInUser.strains !== undefined ? (
-                  <IconButton
-                    className={this.props.classes.buttonsMargin}
-                    aria-label="Add to favorites"
-                  >
-                    <FavoriteIcon
-                      onClick={e => this.handlerFavoriteSubmit(e)}
-                      color={
-                        this.state.loggedInUser.strains.includes(
-                          this.state.idStrain
-                        )
-                          ? "error"
-                          : "inherit"
-                      }
-                    />
-                  </IconButton>
-                ) : (
-                  ""
-                )}
-              </div>
             </div>
           </div>
         </Paper>

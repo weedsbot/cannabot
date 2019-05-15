@@ -9,6 +9,7 @@ passport.use(new LocalStrategy({
   }, 
   (username, password, done) => {
     User.findOne({ username })
+    .populate('strains')
     .then(foundUser => {
       if (!foundUser) {
         done(null, false, { message: 'Incorrect username' });
