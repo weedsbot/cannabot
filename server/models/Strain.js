@@ -10,6 +10,7 @@ const strainSchema = new Schema({
   medical_effects: [{ type: String }],
   stock: { type: String },
   description: { type: String },
+  image_url:{ type: String}
 });
 
 const Strain = mongoose.model("Strain", strainSchema);
