@@ -18,7 +18,7 @@ const Reply = (props) => {
     } else {
         return (
             <a style={{ margin: 3}} href={props.reply.link}
-               className="btn-floating btn-large waves-effect waves-light red">
+               className="btn-floating btn-large waves-effect waves-light green">
                 {props.reply.text}
             </a>
         );

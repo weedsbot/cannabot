@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Strains from "../services/Strains";
 import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "@material-ui/core/Button";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -24,7 +23,7 @@ const styles = theme => ({
     backgroundColor: "rgba(100,100,100,0.2)",
     heigth: "20vh",
     // marginTop: "10vh",
-    justifyContent: "space-around",
+    justifyContent: "left",
     alignItems: "center",
     flexWrap: "wrap"
   },
@@ -173,9 +172,6 @@ class Filters extends Component {
           className={this.props.classes.form}
         >
           <div className={this.props.classes.search}>
-            <div className={this.props.classes.searchIcon}>
-              <SearchIcon />
-            </div>
             <InputBase
               value={this.state.name}
               onChange={this.handleChange("name")}

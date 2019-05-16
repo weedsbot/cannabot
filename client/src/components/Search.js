@@ -3,12 +3,18 @@ import { withStyles } from "@material-ui/core/styles";
 import Filters from "./Filters";
 import WeedsGrid from "./WeedsGrid";
 import StrainsService from "../services/Strains";
+import Chatbot from "./chatbot/Chatbot";
 
 const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
-    heigth: "90vh"
+    heigth: "90vh",
+    width: 'auto'
+  },
+  chat :{
+    marginRight: 20,
+    zIndex: 'snackbar'
   }
 };
 
@@ -46,10 +52,12 @@ class Search extends Component {
             this.setFilteredStrains(filteredStrains)
           }
         />
+        <Chatbot snackbar className={this.props.classes.chat}/>
         <WeedsGrid
           user={this.props.user}
           strains={this.state.filteredStrains}
           getUser={this.props.getUser}
+          // style={{z-index: -1}}
         />
       </div>
     );

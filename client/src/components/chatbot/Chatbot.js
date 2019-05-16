@@ -9,6 +9,8 @@ import { v4 as uuid } from 'uuid';
 import Message from './Message';
 import MessageCard from './MessageCard';
 import Replies from './Replies';
+import 'materialize-css/dist/css/materialize.min.css'
+
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
@@ -264,17 +266,17 @@ class Chatbot extends Component {
     render() {
         if (this.state.showBot) {
             return (
-                <div style={{ minHeight: 500, maxHeight: 470, width:400, position: 'absolute', bottom: 0, right: 0, border: '1px solid lightgray'}}>
+                <div style={{ minHeight: 500, maxHeight: 470, width:600, position: 'absolute', top: '13.5vh', right: 0, zIndex: 99, border: '1px solid lightgray'}}>
                     <nav>
-                        <div className="nav-wrapper">
-                            <a href="/" className="brand-logo">ChatBot</a>
+                        <div className="nav-wrapper" style={{backgroundColor: 'green'}}>
+                            <a href="#" className="brand-logo">CannaBot</a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li><a href="/" onClick={this.hide}>Close</a></li>
                             </ul>
                         </div>
                     </nav>
 
-                    <div id="chatbot"  style={{ minHeight: 388, maxHeight: 388, width:'100%', overflow: 'auto'}}>
+                    <div id="chatbot"  style={{ minHeight: 388, maxHeight: 388, width:'100%', overflow: 'auto', backgroundColor: 'white'}}>
 
                         {this.renderMessages(this.state.messages)}
                         <div ref={(el) => { this.messagesEnd = el; }}
@@ -282,17 +284,17 @@ class Chatbot extends Component {
                         </div>
                     </div>
                     <div className=" col s12" >
-                        <input style={{margin: 0, paddingLeft: '1%', paddingRight: '1%', width: '98%'}} ref={(input) => { this.talkInput = input; }} placeholder="type a message:"  onKeyPress={this._handleInputKeyPress} id="user_says" type="text" />
+                        <input style={{backgroundColor: 'white', margin: 0, paddingLeft: '1%', paddingRight: '1%', width: '98%'}} ref={(input) => { this.talkInput = input; }} placeholder="type a message:"  onKeyPress={this._handleInputKeyPress} id="user_says" type="text" />
                     </div>
 
                 </div>
             );
         } else {
             return (
-                <div style={{ minHeight: 40, maxHeight: 500, width:400, position: 'absolute', bottom: 0, right: 0, border: '1px solid lightgray'}}>
+                <div style={{ minHeight: 40, maxHeight: 500, width:600, position: 'absolute', top: '13.5vh', right: 0,zIndex: 99, border: '1px solid lightgray'}}>
                     <nav>
-                        <div className="nav-wrapper">
-                            <a href="/" className="brand-logo">ChatBot</a>
+                        <div className="nav-wrapper" style={{backgroundColor: 'green'}}>
+                            <a href="#" className="brand-logo">CannaBot</a>
                             <ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li><a href="/" onClick={this.show}>Show</a></li>
                             </ul>

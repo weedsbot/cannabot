@@ -33,8 +33,7 @@ const styles = theme => ({
     padding: "10px"
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    marginLeft: '10px'
   },
   dense: {
     marginTop: 16
@@ -145,12 +144,12 @@ class Login extends Component {
             onSubmit={this.handleFormSubmit}
             autoComplete="off"
           >
-            <FormControl margin="normal" required fullWidth>
+            <FormControl  required fullWidth>
               <TextField
                 id="outlined-name"
                 label="Name"
                 className={this.props.classes.textField}
-                margin="normal"
+                // margin="normal"
                 variant="outlined"
                 type="text"
                 name="username"
