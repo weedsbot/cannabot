@@ -74,6 +74,8 @@ class Signup extends Component {
       username: "",
       password: "",
       password2: "",
+      name: "",
+      email: "",
       redirectToReferrer: false,
       formMessage: ""
     };
@@ -85,15 +87,19 @@ class Signup extends Component {
     const username = this.state.username;
     const password = this.state.password;
     const password2 = this.state.password2;
+    const name = this.state.name;
+    const email = this.state.email;
 
     if (password === password2) {
       this.service
-        .signup(username, password, password2)
+        .signup(username, password, name, email)
         .then(response => {
           this.setState({
             username: "",
             password: "",
             password2: "",
+            name: "",
+            email: "",
             redirectToReferrer: true
           });
           this.props.getUser(response.user);
@@ -103,6 +109,8 @@ class Signup extends Component {
             username: username,
             password: password,
             password2: password2,
+            name: name,
+            email: email,
             error: error
           });
         });
@@ -141,13 +149,41 @@ class Signup extends Component {
             <FormControl margin="normal" required fullWidth>
               <TextField
                 id="outlined-name"
-                label="Name"
+                label="Username"
                 className={this.props.classes.textField}
                 margin="normal"
                 variant="outlined"
                 type="text"
                 name="username"
                 value={this.state.username}
+                onChange={e => this.handleChange(e)}
+                required
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <TextField
+                id="outlined-name"
+                label="Name"
+                className={this.props.classes.textField}
+                margin="normal"
+                variant="outlined"
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={e => this.handleChange(e)}
+                required
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <TextField
+                id="outlined-name"
+                label="Email"
+                className={this.props.classes.textField}
+                margin="normal"
+                variant="outlined"
+                type="email"
+                name="email"
+                value={this.state.email}
                 onChange={e => this.handleChange(e)}
                 required
               />

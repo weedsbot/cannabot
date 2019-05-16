@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-import Image from "../img/snoop.jpg";
+import Image from "../img/icon-user-default.png";
 
 const styles = theme => ({
   textField: {
@@ -74,7 +74,8 @@ const styles = theme => ({
     justifyContent: "center"
   },
   race: {
-    textTransform: "uppercase"
+    textTransform: "uppercase",
+    padding: '20px 0'
   },
   propertiesContainer: {
     width: "50vw",
@@ -175,22 +176,21 @@ class Profile extends Component {
               </div>
               <div className={this.props.classes.textInfo}>
                 <div>
-                  <Typography component="h2" variant="h3">
+                  <Typography component="h1" variant="h1">
                     {this.props.user.username}
                   </Typography>
                   <Typography
                     className={this.props.classes.race}
-                    component="p"
-                    variant="h6"
+                    component="h3"
+                    variant="h3"
                     color="textSecondary"
                   >
-                    Lorem
+                    {this.props.user.name}
                   </Typography>
-                  <Typography component="p" paragraph>
-                    Stract
+                  <Typography component="h4" variant='inherit'>
+                    {this.props.user.email}
                   </Typography>
                 </div>
-                <div className={this.props.classes.propertiesContainer} />
               </div>
             </React.Fragment>
           )}

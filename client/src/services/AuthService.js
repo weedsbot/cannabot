@@ -12,10 +12,10 @@ class AuthService {
     });
   }
 
-  signup = (username, password) => {
-    return this.service.post('/auth/signup', {username, password})
+  signup = (username, password, name, email) => {
+    return this.service.post('/auth/signup', {username, password, name, email})
     .then(response => {
-      console.log(response)
+      //console.log(response)
       return response.data;
     })
     .catch (err => console.log(err))

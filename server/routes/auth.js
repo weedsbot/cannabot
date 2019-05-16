@@ -46,6 +46,8 @@ router.post("/login", (req, res, next) => {
 router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  const name = req.body.name;
+  const email = req.body.email;
   if (username === "" || password === "") {
     next(res.status(500).json({ error: "Indicate username and password" }));
     return;
@@ -63,7 +65,9 @@ router.post("/signup", (req, res, next) => {
     const newUser = new User({
       username,
       password: hashPass,
-      image_url: ""
+      image_url: "",
+      name,
+      email
     });
     newUser
       .save()

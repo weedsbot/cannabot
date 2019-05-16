@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Avatar from "@material-ui/core/Avatar";
 
-import Image from "../img/snoop.jpg";
+import Image from "../img/icon-user-default.png";
 
 const styles = {
   root: {
