@@ -13,7 +13,8 @@ import Image from "../img/snoop.jpg";
 
 const styles = {
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    height: "10vh"
   },
   grow: {
     flexGrow: 1
@@ -24,8 +25,7 @@ const styles = {
   },
   noDecoration: {
     textDecoration: "none",
-    color: "inherit",
-    
+    color: "inherit"
   },
   navBg: {
     background: "rgba(255, 255, 255, 0.7)"
@@ -35,10 +35,10 @@ const styles = {
     width: 40,
     height: 40
   },
-  profileDiv:{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  profileDiv: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 20
   }
 };
@@ -74,14 +74,7 @@ class Navbar extends React.Component {
                   Search
                 </NavLink>
               </Typography>
-              {/* <Typography variant="h6" className={this.props.classes.grow}>
-                <NavLink
-                  className={this.props.classes.noDecoration}
-                  to="/profile"
-                >
-                  Profile
-                </NavLink>
-              </Typography> */}
+
               <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink
                   className={this.props.classes.noDecoration}
@@ -106,7 +99,7 @@ class Navbar extends React.Component {
                   />
                 </NavLink>
                 <Typography
-                  variant="subtitle"
+                  variant="headline"
                   color="textPrimary"
                   // className={this.props.classes.grow}
                 >

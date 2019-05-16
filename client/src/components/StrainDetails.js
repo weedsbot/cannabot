@@ -35,7 +35,7 @@ const styles = theme => ({
   main: {
     width: "70vw",
     display: "block",
-    marginTop: 60,
+    // marginTop: 60,
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -45,7 +45,8 @@ const styles = theme => ({
     }
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    // marginTop: theme.spacing.unit * 8,
+    background: "rgba(100, 100, 100, 0.15)",  
     display: "flex",
     flexWrap: "wrap",
     flexDirection: "row",

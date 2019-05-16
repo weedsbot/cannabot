@@ -12,7 +12,7 @@ const styles = {
     display: "flex",
     justifyContent: "left",
     alignItems: "up",
-    marginTop:'10vh'
+    // marginTop:'10vh'
   },
   rectangle: {
     background: "rgba(100,100,100,0.2)",

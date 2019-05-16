@@ -26,7 +26,7 @@ const styles = {
     flexWrap: "wrap"
   },
   paginator: {
-    marginTop: "70px"
+    marginTop: "1vh"
   }
 };
 

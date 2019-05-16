@@ -23,7 +23,7 @@ const styles = theme => ({
     display: "flex",
     backgroundColor: "rgba(100,100,100,0.2)",
     heigth: "20vh",
-    marginTop: "10vh",
+    // marginTop: "10vh",
     justifyContent: "space-around",
     alignItems: "center",
     flexWrap: "wrap"
@@ -90,6 +90,9 @@ const styles = theme => ({
   formControl: {
     margin: 20,
     minWidth: 200
+  },
+  form : {
+    paddingTop:'2.5vh',
   }
 });
 
@@ -111,10 +114,7 @@ class Filters extends Component {
 
     this.setRaces();
     this.setFlavors();
-    this.setEffects([
-      "medical_effects",
-      "positive_effects"
-    ]);
+    this.setEffects(["medical_effects", "positive_effects"]);
   }
 
   setRaces = () => {
@@ -168,7 +168,10 @@ class Filters extends Component {
   render() {
     return (
       <div className={this.props.classes.container}>
-        <form onSubmit={this.handleFormSubmit}>
+        <form
+          onSubmit={this.handleFormSubmit}
+          className={this.props.classes.form}
+        >
           <div className={this.props.classes.search}>
             <div className={this.props.classes.searchIcon}>
               <SearchIcon />
@@ -188,12 +191,14 @@ class Filters extends Component {
             variant="outlined"
             className={this.props.classes.formControl}
           >
-            <InputLabel>Flavour</InputLabel>
+            <InputLabel label>Flavour</InputLabel>
             <Select
+
               native
               value={this.state.flavour}
               onChange={this.handleChange("flavour")}
               input={<OutlinedInput name="flavour" />}
+              
             >
               <option value="" />
               {this.state.allFlavors !== ""
