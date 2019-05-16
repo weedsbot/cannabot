@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import AuthService from "./services/AuthService";
+import StrainsService from "./services/Strains";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
@@ -13,18 +14,38 @@ import WeedsGrid from "./components/WeedsGrid";
 import Search from "./components/Search";
 
 import { Switch, Route, BrowserRouter } from "react-router-dom";
+import sharedInstance from "jss";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loggedInUser: null };
+    this.state = { loggedInUser: null, strains: [] };
     this.service = new AuthService();
+    this.strainsService = new StrainsService();
+
   }
 
   getUser = userObj => {
     this.setState({
       loggedInUser: userObj
-    });
+    }, this.getStrains);
+  };
+
+  getStrains = () => {
+    //debugger;
+    if (this.state.loggedInUser) {
+      this.setState({
+        ...this.state,
+        strains: []
+      });
+      this.state.loggedInUser.strains.forEach(id => {
+        return this.strainsService.findOneStrainById(id).then(response => {
+          this.setState({
+            strains: [...this.state.strains, response]
+          });
+        });
+      });
+    }
   };
 
   fetchUser() {
@@ -34,11 +55,11 @@ class App extends React.Component {
         .then(response => {
           this.setState({
             loggedInUser: response
-          });
+          }, this.getStrains);
         })
         .catch(err => {
           this.setState({
-            loggedInUser: false
+            loggedInUser: null
           });
         });
     }
@@ -48,14 +69,16 @@ class App extends React.Component {
     this.service.logout().then(logoutInfo => {
       this.setState({
         ...this.state,
-        loggedInUser: null
+        loggedInUser: null,
+        strains: []
       });
     });
   }
 
   render() {
+    //console.log(this.state);
     this.fetchUser();
-    console.log(this.state.loggedInUser);
+    //console.log(this.state.loggedInUser);
     return (
       <BrowserRouter>
         <CssBaseline>
@@ -112,8 +135,8 @@ class App extends React.Component {
                     <WeedsGrid
                       {...props}
                       user={this.state.loggedInUser}
-                      strains={this.state.loggedInUser.strains}
-                      getUser={this.props.getUser}
+                      strains={this.state.strains}
+                      getUser={this.getUser}
                     />
                   )}
                 />

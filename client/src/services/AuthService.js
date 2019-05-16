@@ -56,7 +56,6 @@ class AuthService {
 
 
   changeStrainFavoriteList = (idStrain,idUser,action) => {
-    console.log('entra al service')
     let result = null;
     if(action){
       //console.log("Client strainFavAdd ", idUser, idStrain);

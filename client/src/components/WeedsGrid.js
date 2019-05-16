@@ -43,21 +43,20 @@ class WeedsGrid extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     ...this.state,
-  //     allStrains: this.props.user.strains,
-  //     strains: this.props.user.strains.slice(
-  //       this.state.offset,
-  //       this.state.offset + 10
-  //     ),
-  //     allStrainsNumber: this.props.user.strains.length
-  //   });
-  // }
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      allStrains: this.props.strains,
+      strains: this.props.strains.slice(
+        this.state.offset,
+        this.state.offset + 10
+      ),
+      allStrainsNumber: this.props.strains.length
+    });
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.strains !== nextProps.strains) {
-      console.log(nextProps.strains);
       this.setState({
         ...this.state,
         allStrains: nextProps.strains,
@@ -78,8 +77,8 @@ class WeedsGrid extends Component {
   }
 
   render() {
-    console.log(this.props.user);
-    console.log(this.state);
+    // console.log(this.props.strains);
+    // console.log(this.state);
     return (
       <div className={this.props.classes.main}>
         <MuiThemeProvider theme={theme}>
