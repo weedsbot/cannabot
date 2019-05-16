@@ -109,10 +109,11 @@ const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
 
-/*
-const chatbotRoutes = require('./routes/dialogFlowRoutes');
-app.use('/api/chatbot', chatbotRoutes);
-*/
+// const dialogFlowRoutes = require('./routes/dialogFlowRoutes');
+// app.use('/api', dialogFlowRoutes);
+
+// const fulfillmentRoutes = require('./routes/fulfillmentRoutes');
+// app.use('/api', fulfillmentRoutes);
 
 app.use((req, res) => {
 	res.sendFile(__dirname + "/public/index.html");

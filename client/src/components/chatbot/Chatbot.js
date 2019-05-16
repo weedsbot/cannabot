@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios/index";
-import DialogFlow from "../../services/DialogFlow";
 import { withRouter } from "react-router-dom";
 
 import Cookies from "universal-cookie";
@@ -27,6 +26,8 @@ let mongoURI = process.env.MONGO;
 */
 
 const cookies = new Cookies();
+const project_id = 'cannabot-72acc';
+const sessionId = uuid.v4();
 
 class Chatbot extends Component {
   messagesEnd;
@@ -40,10 +41,6 @@ class Chatbot extends Component {
 
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
-    this.ChatbotComms = new DialogFlow({
-      googleProjectID,
-      dialogFlowSessionID
-    });
     this.state = {
       messages: [],
       showBot: false,
@@ -95,8 +92,10 @@ class Chatbot extends Component {
   async df_client_call(request) {
     try {
       if (this.state.clientToken === false) {
-        const res = await this.ChatbotComms.getClientToken();
-        this.setState({ clientToken: res.data.token });
+        
+        const res = await axios.get('http://localhost:5000/api/get_client_token');
+        console.log("Despues await ",res.data.token);
+        this.setState({ clientToken: res.data.token }, ()=>{console.log(res.data.token)});
       }
 
       var config = {
@@ -106,7 +105,14 @@ class Chatbot extends Component {
         }
       };
 
-      const res = await this.ChatbotComms.sendRequest(request, config, cookies);
+      let postURL = 'https://dialogflow.googleapis.com/v2/projects/' + project_id +
+        '/agent/sessions/' + sessionId + cookies.get('userID') + ':detectIntent';
+      console.log("Chatbot df_client_call => " , postURL);
+      const res = await axios.post(
+          postURL,
+          request,
+          config
+      );
 
       let says = {};
 
@@ -153,7 +159,7 @@ class Chatbot extends Component {
   async componentDidMount() {
     this.df_event_query("Welcome");
 
-    if (window.location.pathname === "/shop" && !this.state.shopWelcomeSent) {
+    if (window.location.pathname === "/" && !this.state.shopWelcomeSent) {
       await this.resolveAfterXSeconds(1);
       this.df_event_query("WELCOME_SHOP");
       this.setState({ shopWelcomeSent: true, showBot: true });
@@ -161,7 +167,7 @@ class Chatbot extends Component {
 
     this.props.history.listen(() => {
       if (
-        this.props.history.location.pathname === "/shop" &&
+        this.props.history.location.pathname === "/" &&
         !this.state.shopWelcomeSent
       ) {
         this.df_event_query("WELCOME_SHOP");
