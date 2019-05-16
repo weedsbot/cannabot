@@ -10,6 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Avatar from "@material-ui/core/Avatar";
 
 import Image from "../img/icon-user-default.png";
+import Logo from '../img/cannabot-logo.png'
 
 const styles = {
   root: {
@@ -40,6 +41,11 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     marginRight: 20
+  },
+  logo:{
+    margin: 5,
+    width: '40%',
+    height: '40%'
   }
 };
 
@@ -55,12 +61,16 @@ class Navbar extends React.Component {
         <div className={this.props.classes.root}>
           <AppBar positionSticky className={this.props.classes.navBg}>
             <Toolbar className={this.props.classes.root}>
-              {/* <IconButton
+              <IconButton
                 className={this.props.classes.menuButton}
                 aria-label="Menu"
               >
-                <MenuIcon />
-              </IconButton> */}
+                <img
+                  alt="Logo"
+                  src={Logo}
+                  className={this.props.classes.logo}
+                />
+              </IconButton>
               <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink className={this.props.classes.noDecoration} to="/">
                   Home

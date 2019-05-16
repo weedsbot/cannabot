@@ -15,7 +15,7 @@ const styles = {
     // marginTop:'10vh'
   },
   rectangle: {
-    background: "rgba(100,100,100,0.2)",
+    // background: "rgba(100,100,100,0.2)",
     height: "30vh",
     width: "100vw",
     display: "flex",
@@ -39,7 +39,7 @@ class Landing extends Component {
     return (
       <div className={this.props.classes.container}>
         <div className={this.props.classes.rectangle}>
-          <Typography variant="h2" className={this.props.classes.white}>
+          <Typography variant="h1" className={this.props.classes.white}>
             {" "}
             <span className={this.props.classes.boldSpan}>Find</span> <br />the
             strain <br />
