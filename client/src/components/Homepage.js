@@ -5,9 +5,9 @@ import WeedsGrid from "./WeedsGrid";
 import StrainsService from "../services/Strains";
 import Typography from "@material-ui/core/Typography";
 
-import Search from '../img/search.png'
-import Fav from '../img/fav.png'
-import Medical from '../img/medical.png'
+import Search from '../img/search (1).png'
+import Fav from '../img/fav (1).png'
+import Medical from '../img/medical (1).png'
 
 const styles = {
   itemsContainer: {
