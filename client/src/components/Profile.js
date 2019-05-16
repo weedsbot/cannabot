@@ -94,45 +94,10 @@ class Profile extends Component {
     super(props);
     this.service = new AuthService();
     this.state = {
-      // loggedInUser: null,
       username: "",
       image_url: ""
     };
-    // this.fetchUser();
   }
-
-  // fetchUser() {
-  //   if (this.state.loggedInUser === null) {
-  //     return this.service
-  //       .loggedin()
-  //       .then(response => {
-  //         this.setState({
-  //           loggedInUser: response
-  //         });
-  //       })
-  //       .catch(err => {
-  //         this.setState({
-  //           loggedInUser: false
-  //         });
-  //       });
-  //   }
-  // }
-
-  // handleLogoutSubmit = event => {
-  //   this.service
-  //     .logout()
-  //     .then(() => {
-  //       this.setState({
-  //         username: null,
-  //         password: null,
-  //         redirectToHome: true,
-  //         error: false
-  //       });
-  //     })
-  //     .catch(() => {
-  //       return <Redirect to="/" />;
-  //     });
-  // };
 
   handleImageSubmit = event => {
     event.preventDefault();
@@ -140,12 +105,7 @@ class Profile extends Component {
     this.service
       .uploadPicture(this.state)
       .then(response => {
-        this.setState({
-          ...this.state,
-          loggedInUser: response.userUpdated,
-          username: this.props.user.username,
-          image_url: response.userUpdated.image
-        });
+        this.props.getUser(response.userUpdated)
       })
       .catch(() => {
         return <Redirect to="/" />;

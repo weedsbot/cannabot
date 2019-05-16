@@ -7,6 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Avatar from "@material-ui/core/Avatar";
+
+import Image from "../img/snoop.jpg";
 
 const styles = {
   root: {
@@ -21,15 +24,26 @@ const styles = {
   },
   noDecoration: {
     textDecoration: "none",
-    color: "inherit"
+    color: "inherit",
+    
   },
   navBg: {
     background: "rgba(255, 255, 255, 0.7)"
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 40,
+    height: 40
+  },
+  profileDiv:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 20
   }
 };
 
 class Navbar extends React.Component {
-
   handlerLogout = e => {
     e.preventDefault();
     this.props.logoutHandler();
@@ -60,14 +74,14 @@ class Navbar extends React.Component {
                   Search
                 </NavLink>
               </Typography>
-              <Typography variant="h6" className={this.props.classes.grow}>
+              {/* <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink
                   className={this.props.classes.noDecoration}
                   to="/profile"
                 >
                   Profile
                 </NavLink>
-              </Typography>
+              </Typography> */}
               <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink
                   className={this.props.classes.noDecoration}
@@ -76,6 +90,29 @@ class Navbar extends React.Component {
                   My Strains
                 </NavLink>
               </Typography>
+              <div className={this.props.classes.profileDiv}>
+                <NavLink
+                  className={this.props.classes.noDecoration}
+                  to="/profile"
+                >
+                  <Avatar
+                    alt={this.props.user}
+                    src={
+                      this.props.user.image_url === ""
+                        ? Image
+                        : this.props.user.image_url
+                    }
+                    className={this.props.classes.bigAvatar}
+                  />
+                </NavLink>
+                <Typography
+                  variant="subtitle"
+                  color="textPrimary"
+                  // className={this.props.classes.grow}
+                >
+                  {this.props.user.username}
+                </Typography>
+              </div>
 
               <Button color="default">
                 {" "}
@@ -115,7 +152,7 @@ class Navbar extends React.Component {
                   Search
                 </NavLink>
               </Typography>
-              <Button>
+              <Button className={this.props.classes.buttonMargin}>
                 <NavLink
                   className={this.props.classes.noDecoration}
                   to="/login"
