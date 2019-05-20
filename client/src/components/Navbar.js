@@ -140,7 +140,11 @@ class Navbar extends React.Component {
                 className={this.props.classes.menuButton}
                 aria-label="Menu"
               >
-                <MenuIcon />
+                <img
+                  alt="Logo"
+                  src={Logo}
+                  className={this.props.classes.logo}
+                />
               </IconButton>
               <Typography variant="h6" className={this.props.classes.grow}>
                 <NavLink className={this.props.classes.noDecoration} to="/">
