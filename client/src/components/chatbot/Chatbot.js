@@ -117,6 +117,7 @@ class Chatbot extends Component {
       let says = {};
         // Punto recogida mensajes chatbot
       if (res.data.queryResult.fulfillmentMessages) {
+        console.log(res.data);
         for (let msg of res.data.queryResult.fulfillmentMessages) {
           says = {
             speaks: "bot",
@@ -124,7 +125,14 @@ class Chatbot extends Component {
           };
           this.setState({ messages: [...this.state.messages, says] });
         }
+        // let msg = res.data.queryResult.webhookPayload.undefined.input.textresponse;
+        // says = {
+        //   speaks: "bot",
+        //   msg: msg
+        // };
+        // this.setState({ messages: [...this.state.messages, says] });
       }
+
     } catch (e) {
       if (e.response.status === 401 && this.state.regenerateToken < 1) {
         this.setState({ clientToken: false, regenerateToken: 1 });

@@ -1,4 +1,4 @@
-const {WebhookClient} = require('dialogflow-fulfillment');
+const {WebhookClient, Payload} = require('dialogflow-fulfillment');
 const express = require("express");
 const axios = require('axios');
 const router = express.Router();
@@ -19,18 +19,35 @@ router.post('/', async (req, res) => {
 
     async function solve_headache(agent) {
         let result;
+        let allStrains;
           await axios.get('http://localhost:4000/api/strains/filter?name=&race=&medical=Headache&positive=&flavour=')
           .then(response=>{
               let strains = response.data.map(strain=>strain.name);
                strains =strains.slice(0,5).join(", ")
-              console.log(strains)
+              
+              allStrains = response.data.slice(0,5)
+            //   console.log("estoy en el axios")
+            //   console.log("Response Mongo", allStrains)
               result= strains
-              console.log("estoy en el axios")
+              
           })
           .catch(err=>{err})
 
-        console.log(result)
-        agent.add(`Te voy a dar cosita buena...\n ${result}`);
+        // console.log(result)
+        // agent.add(`Te voy a dar cosita buena...\n ${result}`);
+        
+
+
+        let payloadJson = {
+            "platform":"PLATFORM_UNSPECIFIED",
+            "input":{
+            "textresponse":"Te voy a dar cosita buena...",
+            "strainslist":allStrains}
+            }
+        console.log("Custom payload:  ", payloadJson);
+        agent.requestSource= agent.PLATFORM_UNSPECIFIED;
+        let payloadCustom = new Payload('PLATFORM_UNSPECIFIED' , payloadJson);        
+        agent.add(payloadCustom);
     }
 
     async function like_flavor(agent) {
