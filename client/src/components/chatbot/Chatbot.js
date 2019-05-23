@@ -17,7 +17,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 let googleProjectID = process.env.GOOGLE_PROJECT_ID;
 let dialogFlowSessionID = process.env.DIALOGFLOW_SESSION_ID;
-
+let dialogProxy = process.env.REACT_APP_CHATPROXY;
 /*
 let dialogFlowSessionLanguageCode = process.env.DIALOGFLOW_LANGUAGE_CODE;
 let googleClientEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -93,7 +93,7 @@ class Chatbot extends Component {
     try {
       if (this.state.clientToken === false) {
         
-        const res = await axios.get('http://localhost:5000/api/get_client_token');
+        const res = await axios.get(dialogProxy);
         console.log("Despues await ",res.data.token);
         this.setState({ clientToken: res.data.token }, ()=>{console.log(res.data.token)});
       }
@@ -115,7 +115,7 @@ class Chatbot extends Component {
       );
 
       let says = {};
-
+        // Punto recogida mensajes chatbot
       if (res.data.queryResult.fulfillmentMessages) {
         for (let msg of res.data.queryResult.fulfillmentMessages) {
           says = {

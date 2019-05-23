@@ -1,22 +1,22 @@
 'use strict';
 const dialogflow = require('dialogflow');
-const structjson = require('./structjson.js');
-const mongoose = require('mongoose');
-
-const googleAuth = require('google-oauth-jwt');
 const uuid = require('uuid');
+const structjson = require('./structjson.js');
+const config = require('../config/keys');
+
 // Get content from file
 var fs = require("fs");
 var contents = fs.readFileSync('/home/fede/Documents/Proyectos-Iron/cannabot/cannabot-gcloud-creds.json');
 // Define to JSON type
 var jsonContent = JSON.parse(contents);
+
+const mongoose = require('mongoose');
+
+const googleAuth = require('google-oauth-jwt');
+
 const projectId = jsonContent.project_id;
 const sessionId = uuid.v4();
 const languageCode = 'en-US';
-
-
-const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const credentials = {
     client_email: jsonContent.googleClientEmail,
@@ -30,14 +30,14 @@ const sessionClient = new dialogflow.SessionsClient({
 });
 
 
-
+//const Registration = mongoose.model('registration');
 
 
 module.exports = {
 
     getToken: async function() {
         return new Promise((resolve) => {
-            console.log("getToken: async function", resolve);
+
             googleAuth.authenticate(
                 {
                     email: jsonContent.client_email,
@@ -106,9 +106,9 @@ module.exports = {
         let queryResult = responses[0].queryResult;
 
         switch (queryResult.action) {
-            case 'recommendstrains-yes':
+            case 'recommendcourses-yes':
                 if (queryResult.allRequiredParamsPresent) {
-
+                    //self.saveRegistration(queryResult.parameters.fields);
                 }
                 break;
         }
@@ -116,5 +116,19 @@ module.exports = {
         return responses;
     },
 
-
+    // saveRegistration: async function(fields){
+    //     const registration = new Registration({
+    //         name: fields.name.stringValue,
+    //         address: fields.address.stringValue,
+    //         phone: fields.phone.stringValue,
+    //         email: fields.email.stringValue,
+    //         dateSent: Date.now()
+    //     });
+    //     try{
+    //         let reg = await registration.save();
+    //         console.log(reg);
+    //     } catch (err){
+    //         console.log(err);
+    //     }
+    // }
 }

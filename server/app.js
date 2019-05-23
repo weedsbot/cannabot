@@ -20,7 +20,6 @@ mongoose
   .connect(process.env.MONGO, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
-    console.log(`${x}`);
   })
   .catch(err => {
     console.error('Error connecting to mongo', err)
@@ -108,12 +107,6 @@ app.use('/api/user', userRoutes);
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
-
-// const dialogFlowRoutes = require('./routes/dialogFlowRoutes');
-// app.use('/api', dialogFlowRoutes);
-
-// const fulfillmentRoutes = require('./routes/fulfillmentRoutes');
-// app.use('/api', fulfillmentRoutes);
 
 app.use((req, res) => {
 	res.sendFile(__dirname + "/public/index.html");
