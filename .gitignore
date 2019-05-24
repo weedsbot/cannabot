@@ -34,3 +34,4 @@ server/npm-debug.log
 server/.env
 .idea
 .env.*
+dialogproxy/config/dev.js
