@@ -18,30 +18,24 @@ router.post('/', async (req, res) => {
     }
 
     async function solve_headache(agent) {
-        let result;
+        let strains;
         let allStrains;
-          await axios.get('http://localhost:4000/api/strains/filter?name=&race=&medical=Headache&positive=&flavour=')
-          .then(response=>{
-              let strains = response.data.map(strain=>strain.name);
-               strains =strains.slice(0,5).join(", ")
-              
-              allStrains = response.data.slice(0,5)
-            //   console.log("estoy en el axios")
-            //   console.log("Response Mongo", allStrains)
-              result= strains
-              
-          })
-          .catch(err=>{err})
+        let message = 'Te voy a dar cosita buena...';
+        let endPointUrl = 'http://localhost:4000/api/strains/filter?name=&race=&medical=Headache&positive=&flavour=';
 
-        // console.log(result)
-        // agent.add(`Te voy a dar cosita buena...\n ${result}`);
-        
+          await axios.get(endPointUrl)
+          .then(response=>{
+            strains = response.data.map(strain=>strain.name);
+            strains =strains.slice(0,5).join(", ");              
+            allStrains = response.data;              
+          })
+          .catch(err=>{err})      
 
 
         let payloadJson = {
             "platform":"PLATFORM_UNSPECIFIED",
             "input":{
-            "textresponse":"Te voy a dar cosita buena...",
+            "textresponse":`${message} ${strains}`,
             "strainslist":allStrains}
             }
         console.log("Custom payload:  ", payloadJson);
@@ -51,19 +45,30 @@ router.post('/', async (req, res) => {
     }
 
     async function like_flavor(agent) {
-        let result;
-        await axios.get('http://localhost:4000/api/strains/filter?name=&race=&medical=&positive=&flavour=mint')
-          .then(response=>{
-              let strains = response.data.map(strain=>strain.name);
-              strains =strains.slice(0,5).join(", ")
-              //console.log(strains)
-              result= strains
-              //console.log("estoy en el axios")
-          })
-          .catch(err=>{err})
+        let strains;
+        let allStrains;
+        let message = 'Esto está muuuuuu rico...\n';
+        let endPointUrl = 'http://localhost:4000/api/strains/filter?name=&race=&medical=&positive=&flavour=mint';
 
-        //console.log(result)
-        agent.add(`Esto está muuuuuu rico...\n ${result}`);
+        await axios.get(endPointUrl)
+        .then(response=>{
+          strains = response.data.map(strain=>strain.name);
+          strains =strains.slice(0,5).join(", ");              
+          allStrains = response.data;              
+        })
+        .catch(err=>{err})      
+
+
+      let payloadJson = {
+          "platform":"PLATFORM_UNSPECIFIED",
+          "input":{
+          "textresponse":`${message} ${strains}`,
+          "strainslist":allStrains}
+          }
+      console.log("Custom payload:  ", payloadJson);
+      agent.requestSource= agent.PLATFORM_UNSPECIFIED;
+      let payloadCustom = new Payload('PLATFORM_UNSPECIFIED' , payloadJson);        
+      agent.add(payloadCustom);
     }
 
     let intentMap = new Map();

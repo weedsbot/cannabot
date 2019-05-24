@@ -11,6 +11,7 @@ import Replies from "./Replies";
 import "materialize-css/dist/css/materialize.min.css";
 
 import Logo from "../../img/cannabot-logo.png";
+import { isNullOrUndefined } from "util";
 
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
@@ -116,8 +117,7 @@ class Chatbot extends Component {
 
       let says = {};
         // Punto recogida mensajes chatbot
-      if (res.data.queryResult.fulfillmentMessages) {
-        console.log(res.data);
+      if (res.data.queryResult.webhookPayload === undefined) {
         for (let msg of res.data.queryResult.fulfillmentMessages) {
           says = {
             speaks: "bot",
@@ -125,16 +125,21 @@ class Chatbot extends Component {
           };
           this.setState({ messages: [...this.state.messages, says] });
         }
-        // let msg = res.data.queryResult.webhookPayload.undefined.input.textresponse;
-        // says = {
-        //   speaks: "bot",
-        //   msg: msg
-        // };
-        // this.setState({ messages: [...this.state.messages, says] });
+
+      }else{
+        let msg = {text:{
+          text : [res.data.queryResult.webhookPayload.undefined.input.textresponse]
+        }};
+        says = {
+          speaks: "bot",
+          msg: msg
+        };
+        this.setState({ messages: [...this.state.messages, says] }, ()=>{this.props.setFilteredStrains(res.data.queryResult.webhookPayload.undefined.input.strainslist)});
       }
 
     } catch (e) {
-      if (e.response.status === 401 && this.state.regenerateToken < 1) {
+      console.log(e);
+      if ( (e.response.status === 401 && this.state.regenerateToken < 1)) {
         this.setState({ clientToken: false, regenerateToken: 1 });
         this.df_client_call(request);
       } else {

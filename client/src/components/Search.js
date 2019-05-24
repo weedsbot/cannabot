@@ -52,7 +52,13 @@ class Search extends Component {
             this.setFilteredStrains(filteredStrains)
           }
         />
-        <Chatbot snackbar className={this.props.classes.chat}/>
+        <Chatbot
+          snackbar
+          className={this.props.classes.chat}
+          setFilteredStrains={filteredStrains =>
+            this.setFilteredStrains(filteredStrains)
+          }
+        />
         <WeedsGrid
           user={this.props.user}
           strains={this.state.filteredStrains}
